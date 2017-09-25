@@ -1,0 +1,199 @@
+option explicit
+  Const ForReading = 1
+
+  Dim fso, oShell
+  Dim extraccao
+  Dim ficheiro_leitura, ficheiro_escrita, ficheiro_output, ficheiro_periodo, comando, ficheiro_shortpan, ficheiro_enchimento, ficheiro_enchido, enchido
+  Dim i, j, k, l, m, n, o
+  Dim periodo_um, periodo_dois, ano, periodo_actual, periodos(65), coluna_comum, coluna_comum_extensao, atributo_wave, numero_periodos, ficheiro_leitura_rec, painelista, numero_opcoes, std_valor, std_colunas
+
+  Set fso = CreateObject("Scripting.FileSystemObject") 
+  
+
+'###########################################################
+'DEFINE UMA ARRAY DE 65 PERIODOS COM BASE NO PERIODO ACTUAL#
+'###########################################################
+
+periodo_actual = inputbox("Qual o período actual/em que termina o demográfico?", "Período actual", "ypp")
+
+periodos(65) = periodo_actual
+
+ano = left(periodo_actual, 1)
+periodo_um = mid(periodo_actual, 2, 1)
+periodo_dois = right(periodo_actual, 1)
+
+for j = 64 to 1 step -1
+
+if periodo_um = 0 then
+	if periodo_dois = 1 then
+		ano = ano - 1
+		periodo_um = 1
+		periodo_dois = 3
+	else	
+		periodo_dois = periodo_dois - 1
+	end if
+else
+	if periodo_dois = 0 then
+		periodo_um = 0
+		periodo_dois = 9
+	else
+		periodo_dois = periodo_dois - 1
+	end if
+end if
+
+periodos(j) = ano & periodo_um & periodo_dois
+
+next
+
+'CONFERE A ARRAY
+'for i = 53 to 65
+'msgbox periodos(i)
+'next
+
+'#######################################################
+'DEFINE A COLUNA DE ONDE A INFORMACAO DEVE SER EXTRAÍDA#
+'#######################################################
+
+coluna_comum = inputbox("Qual a coluna a extrair?", "Coluna a extrair")
+coluna_comum_extensao = inputbox("Qual a extensão da coluna a extrair?", "Extensão da coluna a extrair")
+
+'########################################################################
+'DEFINE O NÚMERO DE PERIODOS RELATIVAMENTE AO QUAL O ATRIBUTO É AVALIADO#
+'########################################################################
+
+numero_periodos = inputbox("Qual o número de períodos a ter em conta?", "Número de periodos")
+
+'##############################
+'FAZ A EXTRACÇAO DA INFORMACAO#
+'##############################
+
+'VERIFICA SE EXISTEM TODOS OS FICHEIROS PARA CONSTRUCAO E, CASO NÃO HAJA, ABANDONA O SCRIPT
+
+for k = 65 - numero_periodos + 1 to 65
+
+'msgbox periodos(i)
+ficheiro_periodo = "Y:\Agbpw\panels\wpanhisc." & periodos(k)
+'msgbox ficheiro_periodo
+
+ If fso.FileExists(ficheiro_periodo) Then
+	'msgbox "O ficheiro de painel para o periodo " & periodos(i) & " está disponível"
+ Else
+	msgbox "O ficheiro de painel para o periodo " & periodos(k) & " não está disponível em Y:\agbpw\panels"
+	WScript.Quit
+ End if
+ 
+ next
+
+'ABRE SEQUENCIALMENTE OS FICHEIROS, EXTRAI A INFORMACAO, E GUARDA COMO YPP.pan (NO CASO DE YPP.pan NÃO EXISTIR JÁ)
+
+
+For l = 65 to 65 - numero_periodos + 1 step -1
+
+	ficheiro_escrita = periodos(l) & ".pan"
+	ficheiro_periodo = "Y:\Agbpw\panels\wpanhisc." & periodos(l)
+
+	If fso.FileExists(ficheiro_escrita) Then
+
+		msgbox "Ficheiro correspondente ao período " & periodos(l) & " já existente!"
+
+	Else
+	
+	msgbox "Iniciado o processo de extracção do ficheiro correspondente ao período " & periodos(l) & "."
+	
+		extraccao = true
+		Set ficheiro_leitura = fso.OpenTextFile(ficheiro_periodo, ForReading)
+		Set ficheiro_output = fso.CreateTextFile(ficheiro_escrita)
+
+		Do While ficheiro_leitura.AtEndOfStream <> True
+			ficheiro_leitura_rec = ficheiro_leitura.ReadLine
+			painelista = left(ficheiro_leitura_rec, 6)
+			atributo_wave = mid(ficheiro_leitura_rec, coluna_comum, coluna_comum_extensao)
+			ficheiro_output.writeline(painelista & "," & atributo_wave)
+		loop
+	
+	msgbox "Extraído o ficheiro correspondente ao período " & periodos(l) & " !"
+	
+	End if
+
+
+next
+
+'DA INFORMAÇAO DE QUE A EXTRACCAO TERMINOU/SE VAI DAR INICIO AO PROCESSO DE EMPARELHAMENTO
+If extraccao = true then
+	msgbox "Terminada a extracção! A dar início ao processo de emparelhamento"
+	ficheiro_output.close
+	ficheiro_leitura.close
+else
+	msgbox "A dar início ao processo de emparelhamento"
+End if
+	  
+	  
+'###########################
+'PROCESSO DE EMPARELHAMENTO#
+'###########################
+
+'VERIFICA SE EXISTE O FICHEIRO SHORTPANEL, COPIA-O E RENOMEIA-O COMO TEMP66.pan
+
+ficheiro_shortpan = "Y:\demogs\wpanhisc\_panel\wpanh." & periodos(65)
+
+If fso.FileExists(ficheiro_shortpan) then
+	fso.CopyFile "Y:\demogs\wpanhisc\_panel\wpanh." & periodos(65), "Y:\demogs\wpanhisc\WINCOME\temp66.pan"
+Else
+	msgbox "Não existe o ficheiro Y:\demogs\wpanhisc\_panel\wpanh." & periodos(65)
+	WScript.Quit
+End if
+
+'EMPARELHAMENTO DA INFO DO PAINELISTA E COLUNA(S) A EXTRAIR, SEQUENCIALMENTE, DO PERÍODO MAIS RECENTE PARA O MAIS ANTIGO (Chr(34) = '"')
+for m = 65 to 65 - numero_periodos + 1 step -1
+
+comando = "Y:\demogs\wpanhisc\WINCOME\matchcon temp" & m + 1 & ".pan 1 " & periodos(m) & ".pan 1 6 7 2 temp" & m & ".pan " & Chr(34) & "x" & Chr(34) & " n"
+'msgbox comando
+
+Set oShell = CreateObject ("WScript.Shell") 
+oShell.run comando
+
+msgbox "É possível continuar? Foi criado o ficheiro temp" & m & ".pan?"
+
+next
+
+'COPIA O ULTIMO FICHEIRO TEMPORARIO E RENOMEIA-O COMO DATA.DAT
+
+fso.CopyFile "Y:\demogs\wpanhisc\WINCOME\temp" & m + 1 & ".pan", "Y:\demogs\wpanhisc\WINCOME\data.dat"
+
+msgbox "É possível continuar? Foi criado o ficheiro data.dat?"
+
+'EMPARELHA DATA.DAT COM o FICHEIRO WPANHISC.YPP
+
+comando = "Y:\demogs\wpanhisc\WINCOME\matchcon Y:\agbpw\panels\wpanhisc." & periodo_actual & " 1 data.dat 1 6 7 " & numero_periodos*(coluna_comum_extensao+1) & " wincome.dat " & Chr(34) & "x" & Chr(34) & " n"
+oShell.run comando
+
+msgbox "É possível continuar? Foi criado o ficheiro wincome.dat?"
+
+'############################################
+'PROCESSO DE ENCHIMENTO DO FICHEIRO DATA.DAT#
+'############################################
+
+ficheiro_enchimento = "wincome.dat"
+ficheiro_enchido = "wincome.pan"
+
+Set ficheiro_leitura = fso.OpenTextFile(ficheiro_enchimento, ForReading)
+Set ficheiro_output = fso.CreateTextFile(ficheiro_enchido)
+
+for o = 1 to (65-numero_periodos)*(coluna_comum_extensao+1)
+
+enchido = enchido & "."
+
+next
+
+msgbox "A dar início ao processo de enchimento"
+
+Do While ficheiro_leitura.AtEndOfStream <> True
+	ficheiro_leitura_rec = ficheiro_leitura.ReadLine
+	ficheiro_output.writeline(ficheiro_leitura_rec & enchido)
+loop
+
+ficheiro_leitura.close
+ficheiro_output.close
+
+msgbox "É possível continuar? Foi criado o ficheiro ficheiro wincome.pan?"
+msgbox "É possível continuar? O std foi criado para 65p com extensão de 4500?"
