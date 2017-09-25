@@ -1,0 +1,232 @@
+Sub Macro1()
+'
+' Macro1 Macro
+'
+'Define o período
+myValue = InputBox("A que período se referem os weights?", "Período", "yyyypp")
+
+'Ordenar IP-FoxSeg-2015-wgt.txt e salvar como .csv
+    ChDir "C:\Users\Joao.Loureiro\Desktop\New folder"
+    Workbooks.OpenText Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\IP-FoxSeg-2015-wgt.txt", Origin:= _
+        xlMSDOS, StartRow:=1, DataType:=xlDelimited, TextQualifier:=xlDoubleQuote _
+        , ConsecutiveDelimiter:=False, Tab:=False, Semicolon:=False, Comma:= _
+        True, Space:=False, Other:=False, FieldInfo:=Array(Array(1, 2), Array(2, 1)) _
+        , TrailingMinusNumbers:=True
+    Columns("A:B").Select
+    Application.Left = 329.5
+    Application.Top = 135.25
+    ActiveWorkbook.Worksheets("IP-FoxSeg-2015-wgt").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("IP-FoxSeg-2015-wgt").Sort.SortFields.Add Key:= _
+        Range("A1:A10255"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption _
+        :=xlSortTextAsNumbers
+    With ActiveWorkbook.Worksheets("IP-FoxSeg-2015-wgt").Sort
+        .SetRange Range("A1:B1048576")
+        .Header = xlGuess
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\IP-FoxSeg-2015-wgt-" & myValue & ".txt", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        Kill "C:\Users\Joao.Loureiro\Desktop\New folder\IP-FoxSeg-2015-wgt.txt"
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\FX" & myValue & ".csv", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        ActiveWorkbook.Close
+
+'Ordenar Ip-grocer-inds2016mar-wgt.txt, salvar .txt com a info do período e salvar como .csv
+    ChDir "C:\Users\Joao.Loureiro\Desktop\New folder"
+    Workbooks.OpenText Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\Ip-grocer-inds2016mar-wgt.txt", Origin:= _
+        xlMSDOS, StartRow:=1, DataType:=xlDelimited, TextQualifier:=xlDoubleQuote _
+        , ConsecutiveDelimiter:=False, Tab:=False, Semicolon:=False, Comma:= _
+        True, Space:=False, Other:=False, FieldInfo:=Array(Array(1, 2), Array(2, 1)) _
+        , TrailingMinusNumbers:=True
+    Columns("A:B").Select
+    Application.Left = 329.5
+    Application.Top = 135.25
+    ActiveWorkbook.Worksheets("Ip-grocer-inds2016mar-wgt").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("Ip-grocer-inds2016mar-wgt").Sort.SortFields.Add Key:= _
+        Range("A1:A10255"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption _
+        :=xlSortTextAsNumbers
+    With ActiveWorkbook.Worksheets("Ip-grocer-inds2016mar-wgt").Sort
+        .SetRange Range("A1:B1048576")
+        .Header = xlGuess
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\Ip-grocer-inds2016mar-wgt-" & myValue & ".txt", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        Kill "C:\Users\Joao.Loureiro\Desktop\New folder\Ip-grocer-inds2016mar-wgt.txt"
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\GM" & myValue & ".csv", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        ActiveWorkbook.Close
+
+'Ordenar Ip-grocer-inds2016oct-wgt.txt e salvar como .csv
+    ChDir "C:\Users\Joao.Loureiro\Desktop\New folder"
+    Workbooks.OpenText Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\Ip-grocer-inds2016oct-wgt.txt", Origin:= _
+        xlMSDOS, StartRow:=1, DataType:=xlDelimited, TextQualifier:=xlDoubleQuote _
+        , ConsecutiveDelimiter:=False, Tab:=False, Semicolon:=False, Comma:= _
+        True, Space:=False, Other:=False, FieldInfo:=Array(Array(1, 2), Array(2, 1)) _
+        , TrailingMinusNumbers:=True
+    Columns("A:B").Select
+    Application.Left = 329.5
+    Application.Top = 135.25
+    ActiveWorkbook.Worksheets("Ip-grocer-inds2016oct-wgt").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("Ip-grocer-inds2016oct-wgt").Sort.SortFields.Add Key:= _
+        Range("A1:A10255"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption _
+        :=xlSortTextAsNumbers
+    With ActiveWorkbook.Worksheets("Ip-grocer-inds2016oct-wgt").Sort
+        .SetRange Range("A1:B1048576")
+        .Header = xlGuess
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\Ip-grocer-inds2016oct-wgt-" & myValue & ".txt", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        Kill "C:\Users\Joao.Loureiro\Desktop\New folder\Ip-grocer-inds2016oct-wgt.txt"
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\GO" & myValue & ".csv", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        ActiveWorkbook.Close
+
+'Ordenar IP-HRDW-Jan2014-wgt.txt e salvar como .csv
+    ChDir "C:\Users\Joao.Loureiro\Desktop\New folder"
+    Workbooks.OpenText Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\IP-HRDW-Jan2014-wgt.txt", Origin:= _
+        xlMSDOS, StartRow:=1, DataType:=xlDelimited, TextQualifier:=xlDoubleQuote _
+        , ConsecutiveDelimiter:=False, Tab:=False, Semicolon:=False, Comma:= _
+        True, Space:=False, Other:=False, FieldInfo:=Array(Array(1, 2), Array(2, 1)) _
+        , TrailingMinusNumbers:=True
+    Columns("A:B").Select
+    Application.Left = 329.5
+    Application.Top = 135.25
+    ActiveWorkbook.Worksheets("IP-HRDW-Jan2014-wgt").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("IP-HRDW-Jan2014-wgt").Sort.SortFields.Add Key:= _
+        Range("A1:A10255"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption _
+        :=xlSortTextAsNumbers
+    With ActiveWorkbook.Worksheets("IP-HRDW-Jan2014-wgt").Sort
+        .SetRange Range("A1:B1048576")
+        .Header = xlGuess
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\IP-HRDW-Jan2014-wgt-" & myValue & ".txt", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        Kill "C:\Users\Joao.Loureiro\Desktop\New folder\IP-HRDW-Jan2014-wgt.txt"
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\HY" & myValue & ".csv", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        ActiveWorkbook.Close
+
+'Ordenar IP-HRDW-Jan2015-wgt.txt e salvar como .csv
+    ChDir "C:\Users\Joao.Loureiro\Desktop\New folder"
+    Workbooks.OpenText Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\IP-HRDW-Jan2015-wgt.txt", Origin:= _
+        xlMSDOS, StartRow:=1, DataType:=xlDelimited, TextQualifier:=xlDoubleQuote _
+        , ConsecutiveDelimiter:=False, Tab:=False, Semicolon:=False, Comma:= _
+        True, Space:=False, Other:=False, FieldInfo:=Array(Array(1, 2), Array(2, 1)) _
+        , TrailingMinusNumbers:=True
+    Columns("A:B").Select
+    Application.Left = 329.5
+    Application.Top = 135.25
+    ActiveWorkbook.Worksheets("IP-HRDW-Jan2015-wgt").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("IP-HRDW-Jan2015-wgt").Sort.SortFields.Add Key:= _
+        Range("A1:A10255"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption _
+        :=xlSortTextAsNumbers
+    With ActiveWorkbook.Worksheets("IP-HRDW-Jan2015-wgt").Sort
+        .SetRange Range("A1:B1048576")
+        .Header = xlGuess
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\IP-HRDW-Jan2015-wgt-" & myValue & ".txt", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        Kill "C:\Users\Joao.Loureiro\Desktop\New folder\IP-HRDW-Jan2015-wgt.txt"
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\HJ" & myValue & ".csv", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        ActiveWorkbook.Close
+        
+'Ordenar IP-Hrdwr-Aug2014-wgt.txt e salvar como .csv
+    ChDir "C:\Users\Joao.Loureiro\Desktop\New folder"
+    Workbooks.OpenText Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\IP-Hrdwr-Aug2014-wgt.txt", Origin:= _
+        xlMSDOS, StartRow:=1, DataType:=xlDelimited, TextQualifier:=xlDoubleQuote _
+        , ConsecutiveDelimiter:=False, Tab:=False, Semicolon:=False, Comma:= _
+        True, Space:=False, Other:=False, FieldInfo:=Array(Array(1, 2), Array(2, 1)) _
+        , TrailingMinusNumbers:=True
+    Columns("A:B").Select
+    Application.Left = 329.5
+    Application.Top = 135.25
+    ActiveWorkbook.Worksheets("IP-Hrdwr-Aug2014-wgt").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("IP-Hrdwr-Aug2014-wgt").Sort.SortFields.Add Key:= _
+        Range("A1:A10255"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption _
+        :=xlSortTextAsNumbers
+    With ActiveWorkbook.Worksheets("IP-Hrdwr-Aug2014-wgt").Sort
+        .SetRange Range("A1:B1048576")
+        .Header = xlGuess
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\IP-Hrdwr-Aug2014-wgt-" & myValue & ".txt", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        Kill "C:\Users\Joao.Loureiro\Desktop\New folder\IP-Hrdwr-Aug2014-wgt.txt"
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\HZ" & myValue & ".csv", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        ActiveWorkbook.Close
+
+'Ordenar Ip-media-inds2016feb-wgt.txt e salvar como .csv
+    ChDir "C:\Users\Joao.Loureiro\Desktop\New folder"
+    Workbooks.OpenText Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\Ip-media-inds2016feb-wgt.txt", Origin:= _
+        xlMSDOS, StartRow:=1, DataType:=xlDelimited, TextQualifier:=xlDoubleQuote _
+        , ConsecutiveDelimiter:=False, Tab:=False, Semicolon:=False, Comma:= _
+        True, Space:=False, Other:=False, FieldInfo:=Array(Array(1, 2), Array(2, 1)) _
+        , TrailingMinusNumbers:=True
+    Columns("A:B").Select
+    Application.Left = 329.5
+    Application.Top = 135.25
+    ActiveWorkbook.Worksheets("Ip-media-inds2016feb-wgt").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("Ip-media-inds2016feb-wgt").Sort.SortFields.Add Key:= _
+        Range("A1:A10255"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption _
+        :=xlSortTextAsNumbers
+    With ActiveWorkbook.Worksheets("Ip-media-inds2016feb-wgt").Sort
+        .SetRange Range("A1:B1048576")
+        .Header = xlGuess
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\Ip-media-inds2016feb-wgt-" & myValue & ".txt", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        Kill "C:\Users\Joao.Loureiro\Desktop\New folder\Ip-media-inds2016feb-wgt.txt"
+        ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\Joao.Loureiro\Desktop\New folder\M6" & myValue & ".csv", FileFormat _
+        :=xlCSV, CreateBackup:=False
+        ActiveWorkbook.Close
+
+End Sub
