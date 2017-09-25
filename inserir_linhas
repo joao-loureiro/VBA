@@ -1,0 +1,40 @@
+Sub Macro2()
+'
+' Macro2 Macro
+'
+' Keyboard Shortcut: Ctrl+Shift+K
+'
+UserForm1.Show
+
+End Sub
+
+=================================
+
+Private Sub CommandButton1_Click()
+
+linhas = , & TextBox1.Text
+
+linhas_split = Split(linhas, ,)
+
+
+For i = 1 To UBound(linhas_split)
+If linhas_split(i)   Then
+Range(A & linhas_split(i)).EntireRow.Insert
+Else
+Exit For
+End If
+Next
+
+End Sub
+
+================================
+
+Private Sub CommandButton3_Click()
+
+UserForm1.Hide
+
+End Sub
+
+Private Sub UserForm_Click()
+
+End Sub
