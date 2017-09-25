@@ -1,0 +1,157 @@
+Sub Auto_Open()
+
+'1. ABRIR O STD - Não esquecer de mudar o caminho do ficheiro de Y: para \\ktlibfps101\ROC\ROC Production\UK Data Production\13. Production
+
+    ChDir ThisWorkbook.Path
+    Workbooks.OpenText Filename:= _
+        ThisWorkbook.Path & "\specs.std", Origin:=932, StartRow:=1 _
+        , DataType:=xlDelimited, TextQualifier:=xlDoubleQuote, _
+        ConsecutiveDelimiter:=False, Tab:=False, Semicolon:=False, Comma:=False _
+        , Space:=False, Other:=False, FieldInfo:=Array(1, 2), _
+        TrailingMinusNumbers:=True
+    
+'2. EDITAR O QUE HÁ A EDITAR
+
+'Substitui 10000 colunas por 5000 colunas e o nível do ficheiro de 2 para 1
+For i = 1 To 5000
+    If Cells(i, 1).Value = "10000" And Cells(i + 1, 1).Value = "2" Then
+        Cells(i, 1) = "5000"
+        Cells(i + 1, 1) = "1"
+    End If
+Next i
+
+'Apaga 50=O+600=1+
+    Cells.Replace What:="50=O+600=1+", Replacement:="", LookAt:=xlPart, _
+        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False
+
+'Apaga 500=1+
+    Cells.Replace What:="500=1+", Replacement:="", LookAt:=xlPart, _
+        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False
+
+'Apaga 50=O,M+92=01+
+    Cells.Replace What:="50=O,M+92=01+", Replacement:="", LookAt:=xlPart, _
+        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False
+
+'Apaga 92=01+
+    Cells.Replace What:="92=01+", Replacement:="", LookAt:=xlPart, _
+        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False
+  
+'Apaga 700=01+
+    Cells.Replace What:="700=01+", Replacement:="", LookAt:=xlPart, _
+        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False
+ 
+'Substitui o total de painelistas SPECIFIED (que têm dados no dat file)
+    'para BROAD_01
+For i = 1 To 5000
+    If Cells(i, 1).Value = "BROAD_01" Then
+        Cells(i + 9, 1).Value = "604=0000/9999"
+    End If
+Next i
+
+    'para BROAD_10
+For i = 1 To 5000
+    If Cells(i, 1).Value = "BROAD_10" Then
+        Cells(i + 9, 1).Value = "3478=00/99"
+    End If
+Next i
+
+    'para HOME_01
+For i = 1 To 5000
+    If Cells(i, 1).Value = "HOME_01" Then
+        Cells(i + 9, 1).Value = "504=0000/9999"
+    End If
+Next i
+
+    'para MOB1_01
+For i = 1 To 5000
+    If Cells(i, 1).Value = "MOB1_01" Then
+        Cells(i + 9, 1).Value = "100=0000/9999"
+    End If
+Next i
+
+    'para MOB1_02
+For i = 1 To 5000
+    If Cells(i, 1).Value = "MOB1_02" Then
+        Cells(i + 9, 1).Value = "104=0000/9999"
+    End If
+Next i
+
+    'para MOB1_06
+For i = 1 To 5000
+    If Cells(i, 1).Value = "MOB1_06" Then
+        Cells(i + 9, 1).Value = "113=000/999"
+    End If
+Next i
+
+    'para MOB1_34
+For i = 1 To 5000
+    If Cells(i, 1).Value = "MOB1_34" Then
+        Cells(i + 9, 1).Value = "678=00/99"
+    End If
+Next i
+
+    'para MOB1_55
+For i = 1 To 5000
+    If Cells(i, 1).Value = "MOB1_55" Then
+        Cells(i + 9, 1).Value = "3325=00/99"
+    End If
+Next i
+
+    'para MOB1_57
+For i = 1 To 5000
+    If Cells(i, 1).Value = "MOB1_57" Then
+        Cells(i + 9, 1).Value = "3336=00/99"
+    End If
+Next i
+
+    'para MOB1_MNF
+For i = 1 To 5000
+    If Cells(i, 1).Value = "MOB1_MNF" Then
+        Cells(i + 9, 1).Value = "175=0000/9999"
+    End If
+Next i
+
+    'para MOB1_MMO
+For i = 1 To 5000
+    If Cells(i, 1).Value = "MOB1_MMO" Then
+        Cells(i + 9, 1).Value = "169=000000/999999"
+    End If
+Next i
+
+    'para MOB1ATT
+For i = 1 To 5000
+    If Cells(i, 1).Value = "MOB1ATT" Then
+        Cells(i + 9, 1).Value = "2201=0/9"
+    End If
+Next i
+
+    'para TV1_01
+For i = 1 To 5000
+    If Cells(i, 1).Value = "TV1_01" Then
+        Cells(i + 9, 1).Value = "710=0000/9999"
+    End If
+Next i
+
+'Salvar specs como specs.new
+Open ThisWorkbook.Path & "\specs.new" For Output As #1
+
+    For i = 1 To 1000000
+        If Len(Sheets(1).Cells(i, 1).Value) > 0 Then
+            Print #1, Sheets(1).Cells(i, 1).Value
+        Else
+            Exit For
+        End If
+    Next i
+ 
+Close #1
+
+'SALVAR O FICHEIRO SEM CONFIRMAÇÃO
+ActiveWorkbook.Close SaveChanges:=True
+Application.ActiveWindow.Close SaveChanges:=False
+
+End Sub
