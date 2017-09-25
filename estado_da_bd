@@ -1,0 +1,431 @@
+Private Sub CommandButton1_Click()
+
+UserForm1.Show
+
+End Sub
+
+Private Sub reset_Click()
+
+orderbox.Value = ""
+periodcombobox.Clear
+servicecombobox.Clear
+
+With periodcombobox
+    .AddItem "201706"
+    .AddItem "201705"
+    .AddItem "201704"
+    .AddItem "201703"
+    .AddItem "201702"
+    .AddItem "201701"
+    .AddItem "201613"
+    .AddItem "201612"
+    .AddItem "201611"
+    .AddItem "201610"
+    .AddItem "201609"
+    .AddItem "201608"
+    .AddItem "201607"
+    .AddItem "201606"
+End With
+
+With servicecombobox
+    .AddItem "Worldpanel UK"
+    .AddItem "Worldpanel Ireland"
+    .AddItem "Foods Online"
+    .AddItem "Food On The Go"
+    .AddItem "Out of Home"
+    .AddItem "Out of Home Usage"
+    .AddItem "Petrol Panel"
+    .AddItem "Pulse"
+    .AddItem "Worldpanel Baby"
+End With
+
+End Sub
+
+Private Sub order_Click()
+
+End Sub
+
+Private Sub submeter_Click()
+Dim myFile As String, i As Integer
+
+Select Case servicecombobox.Value
+Case "Worldpanel UK"
+servicecomboboxa = "1"
+servicecomboboxb = "2"
+servicecomboboxc = "14"
+Case "Food On The Go"
+servicecomboboxa = "3"
+Case "Petrol"
+servicecomboboxa = "4"
+Case "Worldpanel Baby"
+servicecomboboxa = "12"
+Case "Worldpanel Ireland"
+servicecomboboxa = "15"
+Case "Pulse"
+servicecomboboxa = "17"
+Case "Foods Online"
+servicecomboboxa = "19"
+Case "Out of Home"
+servicecomboboxa = "21"
+Case "Out of Home Usage"
+servicecomboboxa = "22"
+End Select
+
+'myFile = "C:\Estado da BD.dqy"
+
+'Open myFile For Output As #1
+
+'Select Case servicecombobox.Value
+'Case "Worldpanel UK"
+    'For i = 1 To 4
+        'If i = 1 Then
+        'Print #1, "XLODBC"
+        'End If
+        'If i = 2 Then
+        'Print #1, "1"
+        'End If
+        'If i = 3 Then
+        'Print #1, "DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=powerview;PWD=powerview;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview"
+        'End If
+        'If i = 4 Then
+        'Print #1, "SELECT [PvaProdId],[ProductionTypeId],[OrderId],[OrderNumber],[Period],[DataPeriod],[NumPeriods],[Cleared],[Priority],[BuildMode],[PanelTypeId],[BuildTypeId],[IsecJobPriority],[IsecJobNumber],[IsecJobStatus],[IsecJobTimeSubmit],[IsecJobTimeStart],[IsecJobSeconds],[DownloadStatus],[DownloadSeconds],[DownloadTimeStart],[ServerId],[BuildStatus],[BuildTimeStart],[BuildSeconds],[FactorySeconds],[ZipSeconds],[StatusDescription],[DatabaseStatus],[DatabaseDate],[PrepDate],[ClearedDate],[AutoBuild],[PvCopy],[ServerName],[GlbDate],[QueueFlag] FROM [PowerView].[powerview].[pva_production]" & " WHERE [PowerView].[powerview].[pva_production].OrderNumber = '" & orderbox & "' AND [PowerView].[powerview].[pva_production].DataPeriod = '" & periodcombobox & "' AND " _
+        '& "([PowerView].[powerview].[pva_production].PanelTypeId = 1 OR [PowerView].[powerview].[pva_production].PanelTypeId = 2 OR [PowerView].[powerview].[pva_production].PanelTypeId = 14)"
+        'End If
+    'Next i
+'Case "Foods Online"
+    'For i = 1 To 4
+        'If i = 1 Then
+        'Print #1, "XLODBC"
+        'End If
+        'If i = 2 Then
+        'Print #1, "1"
+        'End If
+        'If i = 3 Then
+        'Print #1, "DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=powerview;PWD=powerview;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview"
+        'End If
+        'If i = 4 Then
+        'Print #1, "SELECT [PvaProdId],[ProductionTypeId],[OrderId],[OrderNumber],[Period],[DataPeriod],[NumPeriods],[Cleared],[Priority],[BuildMode],[PanelTypeId],[BuildTypeId],[IsecJobPriority],[IsecJobNumber],[IsecJobStatus],[IsecJobTimeSubmit],[IsecJobTimeStart],[IsecJobSeconds],[DownloadStatus],[DownloadSeconds],[DownloadTimeStart],[ServerId],[BuildStatus],[BuildTimeStart],[BuildSeconds],[FactorySeconds],[ZipSeconds],[StatusDescription],[DatabaseStatus],[DatabaseDate],[PrepDate],[ClearedDate],[AutoBuild],[PvCopy],[ServerName],[GlbDate],[QueueFlag] FROM [PowerView].[powerview].[pva_production]" & " WHERE [PowerView].[powerview].[pva_production].OrderNumber = '" & orderbox & "' AND [PowerView].[powerview].[pva_production].DataPeriod = '" & periodcombobox & "' AND " _
+        '& "([PowerView].[powerview].[pva_production].PanelTypeId = 19 OR [PowerView].[powerview].[pva_production].PanelTypeId = 20)"
+        'End If
+    'Next i
+'Case Else
+    'For i = 1 To 4
+        'If i = 1 Then
+        'Print #1, "XLODBC"
+        'End If
+        'If i = 2 Then
+        'Print #1, "1"
+        'End If
+        'If i = 3 Then
+        'Print #1, "DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=powerview;PWD=powerview;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview"
+        'End If
+        'If i = 4 Then
+        'Print #1, "SELECT [PvaProdId],[ProductionTypeId],[OrderId],[OrderNumber],[Period],[DataPeriod],[NumPeriods],[Cleared],[Priority],[BuildMode],[PanelTypeId],[BuildTypeId],[IsecJobPriority],[IsecJobNumber],[IsecJobStatus],[IsecJobTimeSubmit],[IsecJobTimeStart],[IsecJobSeconds],[DownloadStatus],[DownloadSeconds],[DownloadTimeStart],[ServerId],[BuildStatus],[BuildTimeStart],[BuildSeconds],[FactorySeconds],[ZipSeconds],[StatusDescription],[DatabaseStatus],[DatabaseDate],[PrepDate],[ClearedDate],[AutoBuild],[PvCopy],[ServerName],[GlbDate],[QueueFlag] FROM [PowerView].[powerview].[pva_production]" & " WHERE [PowerView].[powerview].[pva_production].OrderNumber = '" & orderbox & "' AND [PowerView].[powerview].[pva_production].DataPeriod = '" & periodcombobox & "' AND [PowerView].[powerview].[pva_production].PanelTypeID = '" & servicecomboboxa & "'"
+        'End If
+    'Next i
+'End Select
+
+
+'Close #1
+
+UserForm1.Hide
+
+Application.Visible = True
+
+'Workbooks.Open (myFile)
+
+'Workbooks("Estado da BD - Copy (2).xlsm").Close SaveChanges:=False
+
+Workbooks.Add
+
+'Sheets("Sheet1").Select
+
+Select Case servicecombobox.Value
+Case "Worldpanel UK"
+    With ActiveSheet.ListObjects.Add(SourceType:=0, Source:= _
+        "ODBC;DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=readonly;PWD=readonly;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview" _
+        , Destination:=Range("$A$1")).QueryTable
+        .CommandText = Array( _
+        "SELECT [PvaProdId],[ProductionTypeId],[OrderId],[OrderNumber],[Period],[DataPeriod],[NumPeriods],[Cleared],[Priorit" _
+        , _
+        "y],[BuildMode],[PanelTypeId],[BuildTypeId],[IsecJobPriority],[IsecJobNumber],[IsecJobStatus],[IsecJobTimeSubmit],[I" _
+        , _
+        "secJobTimeStart],[IsecJobSeconds],[DownloadStatus],[DownloadSeconds],[DownloadTimeStart],[ServerId],[BuildStatus],[" _
+        , _
+        "BuildTimeStart],[BuildSeconds],[FactorySeconds],[ZipSeconds],[StatusDescription],[DatabaseStatus],[DatabaseDate],[P" _
+        , _
+        "repDate],[ClearedDate],[AutoBuild],[PvCopy],[ServerName],[GlbDate],[QueueFlag] FROM [PowerView].[powerview].[pva_pr" _
+        , _
+        "oduction] WHERE [PowerView].[powerview].[pva_production].OrderNumber = '" & orderbox.Value & "' AND [PowerView].[powerview].[pva_prod" _
+        , _
+        "uction].DataPeriod = " & periodcombobox.Value & " AND ([PowerView].[powerview].[pva_production].PanelTypeId = 1 OR [PowerView].[powerview]." _
+        , _
+        "[pva_production].PanelTypeId = 2 OR [PowerView].[powerview].[pva_production].PanelTypeId = 14)" _
+        )
+        .RowNumbers = False
+        .FillAdjacentFormulas = False
+        .PreserveFormatting = True
+        .RefreshOnFileOpen = False
+        .BackgroundQuery = True
+        .RefreshStyle = xlInsertDeleteCells
+        .SavePassword = False
+        .SaveData = True
+        .AdjustColumnWidth = True
+        .RefreshPeriod = 0
+        .PreserveColumnInfo = True
+        .SourceConnectionFile = "C:\Estado da BD.dqy"
+        .ListObject.DisplayName = "Table_Estado_da_BD"
+        .Refresh BackgroundQuery:=False
+    End With
+Case "Foods Online"
+    With ActiveSheet.ListObjects.Add(SourceType:=0, Source:= _
+        "ODBC;DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=readonly;PWD=readonly;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview" _
+        , Destination:=Range("$A$1")).QueryTable
+        .CommandText = Array( _
+        "SELECT [PvaProdId],[ProductionTypeId],[OrderId],[OrderNumber],[Period],[DataPeriod],[NumPeriods],[Cleared],[Priorit" _
+        , _
+        "y],[BuildMode],[PanelTypeId],[BuildTypeId],[IsecJobPriority],[IsecJobNumber],[IsecJobStatus],[IsecJobTimeSubmit],[I" _
+        , _
+        "secJobTimeStart],[IsecJobSeconds],[DownloadStatus],[DownloadSeconds],[DownloadTimeStart],[ServerId],[BuildStatus],[" _
+        , _
+        "BuildTimeStart],[BuildSeconds],[FactorySeconds],[ZipSeconds],[StatusDescription],[DatabaseStatus],[DatabaseDate],[P" _
+        , _
+        "repDate],[ClearedDate],[AutoBuild],[PvCopy],[ServerName],[GlbDate],[QueueFlag] FROM [PowerView].[powerview].[pva_pr" _
+        , _
+        "oduction] WHERE [PowerView].[powerview].[pva_production].OrderNumber = '" & orderbox.Value & "' AND [PowerView].[powerview].[pva_prod" _
+        , _
+        "uction].DataPeriod = " & periodcombobox.Value & " AND ([PowerView].[powerview].[pva_production].PanelTypeId = 19 OR [PowerView].[powerview]." _
+        , _
+        "[pva_production].PanelTypeId = 20)" _
+        )
+        .RowNumbers = False
+        .FillAdjacentFormulas = False
+        .PreserveFormatting = True
+        .RefreshOnFileOpen = False
+        .BackgroundQuery = True
+        .RefreshStyle = xlInsertDeleteCells
+        .SavePassword = False
+        .SaveData = True
+        .AdjustColumnWidth = True
+        .RefreshPeriod = 0
+        .PreserveColumnInfo = True
+        .SourceConnectionFile = "C:\Estado da BD.dqy"
+        .ListObject.DisplayName = "Table_Estado_da_BD"
+        .Refresh BackgroundQuery:=False
+    End With
+Case Else
+    With ActiveSheet.ListObjects.Add(SourceType:=0, Source:= _
+        "ODBC;DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=readonly;PWD=readonly;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview" _
+        , Destination:=Range("$A$1")).QueryTable
+        .CommandText = Array( _
+        "SELECT [PvaProdId],[ProductionTypeId],[OrderId],[OrderNumber],[Period],[DataPeriod],[NumPeriods],[Cleared],[Priorit" _
+        , _
+        "y],[BuildMode],[PanelTypeId],[BuildTypeId],[IsecJobPriority],[IsecJobNumber],[IsecJobStatus],[IsecJobTimeSubmit],[I" _
+        , _
+        "secJobTimeStart],[IsecJobSeconds],[DownloadStatus],[DownloadSeconds],[DownloadTimeStart],[ServerId],[BuildStatus],[" _
+        , _
+        "BuildTimeStart],[BuildSeconds],[FactorySeconds],[ZipSeconds],[StatusDescription],[DatabaseStatus],[DatabaseDate],[P" _
+        , _
+        "repDate],[ClearedDate],[AutoBuild],[PvCopy],[ServerName],[GlbDate],[QueueFlag] FROM [PowerView].[powerview].[pva_pr" _
+        , _
+        "oduction] WHERE [PowerView].[powerview].[pva_production].OrderNumber = '" & orderbox.Value & "' AND [PowerView].[powerview].[pva_prod" _
+        , _
+        "uction].DataPeriod = " & periodcombobox.Value & " AND ([PowerView].[powerview].[pva_production].PanelTypeId = " & servicecomboboxa & ")" _
+        )
+        .RowNumbers = False
+        .FillAdjacentFormulas = False
+        .PreserveFormatting = True
+        .RefreshOnFileOpen = False
+        .BackgroundQuery = True
+        .RefreshStyle = xlInsertDeleteCells
+        .SavePassword = False
+        .SaveData = True
+        .AdjustColumnWidth = True
+        .RefreshPeriod = 0
+        .PreserveColumnInfo = True
+        .SourceConnectionFile = "C:\Estado da BD.dqy"
+        .ListObject.DisplayName = "Table_Estado_da_BD"
+        .Refresh BackgroundQuery:=False
+        
+    End With
+End Select
+
+For j = 1 To 100
+    If Cells(j, 1).Value <> "" Then
+    registos = j
+    End If
+Next j
+
+'MsgBox registos
+If Cells(2, 1) <> "" Then
+    Range("A2").Select
+    Range(Cells(2, 1), Cells(2, 37)).Select
+    Range(Selection, Cells(registos, 37)).Select
+    Range(Selection, Cells(registos, 37)).Interior.Pattern = xlNone
+    Application.CutCopyMode = False
+    Selection.Copy
+    Sheets.Add().Name="Sheet2"
+    Sheets("Sheet2").Select
+    Range("B1").Select
+    
+    Selection.PasteSpecial Paste:=xlPasteAll, Operation:=xlNone, SkipBlanks:= _
+        False, Transpose:=True
+
+    Range("16:16,17:17,21:21,24:24,30:30,31:31,32:32,36:36").Select
+    Range("16:16,17:17,21:21,24:24,30:30,31:31,32:32,36:36").Activate
+    Selection.NumberFormat = "dd/mm/yyyy h:mm:ss AM/PM"
+    
+    Cells(1, 1).Value = "PvaProdId"
+    Cells(2, 1).Value = "ProductionTypeId"
+    Cells(3, 1).Value = "OrderId"
+    Cells(4, 1).Value = "OrderNumber"
+    Cells(5, 1).Value = "Period"
+    Cells(6, 1).Value = "DataPeriod"
+    Cells(7, 1).Value = "NumPeriods"
+    Cells(8, 1).Value = "Cleared"
+    Cells(9, 1).Value = "Priority"
+    Cells(10, 1).Value = "BuildMode"
+    Cells(11, 1).Value = "PanelTypeId"
+    Cells(12, 1).Value = "BuildTypeId"
+    Cells(13, 1).Value = "IsecJobPriority"
+    Cells(14, 1).Value = "IsecJobNumber"
+    Cells(15, 1).Value = "IsecJobStatus"
+    Cells(16, 1).Value = "IsecJobTimeSubmit"
+    Cells(17, 1).Value = "IsecJobTimeStart"
+    Cells(18, 1).Value = "IsecJobSeconds"
+    Cells(19, 1).Value = "DownloadStatus"
+    Cells(20, 1).Value = "DownloadSeconds"
+    Cells(21, 1).Value = "DownloadTimeStart"
+    Cells(22, 1).Value = "ServerId"
+    Cells(23, 1).Value = "BuildStatus"
+    Cells(24, 1).Value = "BuildTimeStart"
+    Cells(25, 1).Value = "BuildSeconds"
+    Cells(26, 1).Value = "FactorySeconds"
+    Cells(27, 1).Value = "ZipSeconds"
+    Cells(28, 1).Value = "StatusDescription"
+    Cells(29, 1).Value = "DatabaseStatus"
+    Cells(30, 1).Value = "DatabaseDate"
+    Cells(31, 1).Value = "PrepDate"
+    Cells(32, 1).Value = "ClearedDate"
+    Cells(33, 1).Value = "AutoBuild"
+    Cells(34, 1).Value = "PvCopy"
+    Cells(35, 1).Value = "ServerName"
+    Cells(36, 1).Value = "GlbDate"
+    Cells(37, 1).Value = "QueueFlag"
+
+    Cells.Select
+    Cells.EntireColumn.AutoFit
+    
+    Range("A1").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    ActiveSheet.ListObjects.Add(xlSrcRange, Selection, , xlNo).Name = _
+        "Table2"
+    Range("Table2[#All]").Select
+    'ActiveSheet.ListObjects("Table2").TableStyle = "TableStyleLight2"
+        ActiveSheet.ListObjects("Table2").Range.AutoFilter Field:=1, Criteria1:= _
+        Array("BuildMode", "BuildStatus", "BuildTimeStart", "BuildTypeId", "Cleared", _
+        "ClearedDate", "DatabaseDate", "DatabaseStatus", "DownloadSeconds", _
+        "DownloadStatus", "DownloadTimeStart", "GlbDate", "IsecJobNumber", _
+        "IsecJobPriority", "IsecJobSeconds", "IsecJobStatus", "IsecJobTimeStart", _
+        "IsecJobTimeSubmit", "NumPeriods", "OrderId", "OrderNumber", "PanelTypeId", "Period" _
+        , "Priority", "QueueFlag", "ServerName", "StatusDescription"), Operator:= _
+        xlFilterValues
+        
+        
+    With ActiveSheet.ListObjects.Add(SourceType:=0, Source:= _
+        "ODBC;DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=readonly;PWD=readonly;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview" _
+        , Destination:=Range("$A$40")).QueryTable
+        .CommandText = Array( _
+        "SELECT [NetworkFolder] FROM [PowerView].[powerview].[pva_or" _
+        , _
+        "der_prodn] WHERE [PowerView].[powerview].[pva_order_prodn].OrderID = " & Cells(4, 2).Value _
+        )
+        .RowNumbers = False
+        .FillAdjacentFormulas = False
+        .PreserveFormatting = True
+        .RefreshOnFileOpen = False
+        .BackgroundQuery = True
+        .RefreshStyle = xlInsertDeleteCells
+        .SavePassword = False
+        .SaveData = True
+        .AdjustColumnWidth = True
+        .RefreshPeriod = 0
+        .PreserveColumnInfo = True
+        .SourceConnectionFile = "C:\Estado da BD.dqy"
+        .ListObject.DisplayName = "Table_Esstado_da_BD"
+        .Refresh BackgroundQuery:=False
+    End With
+              
+If servicecombobox = "Worldpanel Ireland" Then
+    Cells(43, 1).Value = "Y:\data_" & Cells(6, 2).Value & "\" & servicecombobox & "\" & Cells(41, 1).Value
+
+    ActiveSheet.Hyperlinks.Add Anchor:=Cells(43, 1), Address:= _
+        "Y:\data_" & Cells(6, 2).Value & "\" & Cells(41, 1).Value, TextToDisplay:= _
+        "Y:\data_" & Cells(6, 2).Value & "\" & Cells(41, 1).Value
+
+Else
+    If servicecombobox = "Foods Online" Then
+        Cells(43, 1).Value = "W:\Powerview\data_" & Cells(6, 2).Value & "\" & servicecombobox & "\" & Cells(41, 1).Value
+          
+        ActiveSheet.Hyperlinks.Add Anchor:=Cells(43, 1), Address:= _
+            "\\ktslofil001\kwlwgfil002\Worldpanel\Powerview\data_" & Cells(6, 2).Value & "\" & servicecombobox & "\" & Cells(41, 1).Value, TextToDisplay:= _
+            "\\ktslofil001\kwlwgfil002\Worldpanel\Powerview\data_" & Cells(6, 2).Value & "\" & servicecombobox & "\" & Cells(41, 1).Value
+        
+        Else
+
+        Cells(43, 1).Value = "W:\Powerview\data_" & Cells(6, 2).Value & "\" & servicecombobox & "\" & Cells(41, 1).Value
+
+        ActiveSheet.Hyperlinks.Add Anchor:=Cells(43, 1), Address:= _
+            "W:\Powerview\data_" & Cells(6, 2).Value & "\" & servicecombobox & "\" & Cells(41, 1).Value, TextToDisplay:= _
+            "W:\Powerview\data_" & Cells(6, 2).Value & "\" & servicecombobox & "\" & Cells(41, 1).Value
+    End If
+End If
+        
+Else
+End If
+
+End Sub
+
+Private Sub UserForm_Initialize()
+orderbox.Value = ""
+periodcombobox.Clear
+servicecombobox.Clear
+
+'If Month(Date) < 10 Then
+'mes = "0" & Month(Date)
+'End If
+
+
+With periodcombobox
+    .AddItem "201706"
+    .AddItem "201705"
+    .AddItem "201704"
+    .AddItem "201703"
+    .AddItem "201702"
+    .AddItem "201701"
+    .AddItem "201613"
+    .AddItem "201612"
+    .AddItem "201611"
+    .AddItem "201610"
+    .AddItem "201609"
+    .AddItem "201608"
+    .AddItem "201607"
+    .AddItem "201606"
+End With
+
+With servicecombobox
+    .AddItem "Worldpanel UK"
+    .AddItem "Worldpanel Ireland"
+    .AddItem "Foods Online"
+    .AddItem "Food On The Go"
+    .AddItem "Out of Home"
+    .AddItem "Out of Home Usage"
+    .AddItem "Petrol Panel"
+    .AddItem "Pulse"
+    .AddItem "Worldpanel Baby"
+End With
+
+End Sub
+
+
