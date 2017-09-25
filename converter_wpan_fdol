@@ -1,0 +1,672 @@
+Dim general(1 To 500, 1 To 500), volumes(1 To 500, 1 To 500), powerview(1 To 500, 1 To 500), attributes(1 To 500, 1 To 500), productfilter(1 To 500, 1 To 500), clients(1 To 500, 1 To 500) As String
+
+utilizador = InputBox("Qual o nome do utilizador", "Utilizador", "readonly")
+
+'#################################
+'Pergunta qual a order a abrir
+
+strFileToOpen = Application.GetOpenFilename _
+(Title:="Please choose a file to open", _
+FileFilter:="All Files *.ord* (*.ord*),")
+
+    Application.WindowState = xlMinimized
+    Workbooks.OpenText Filename:= _
+        strFileToOpen, Origin:= _
+        xlMSDOS, StartRow:=1, DataType:=xlDelimited, TextQualifier:=xlDoubleQuote _
+        , ConsecutiveDelimiter:=False, Tab:=False, Semicolon:=False, Comma:= _
+        False, Space:=False, Other:=True, OtherChar:="=", FieldInfo:=Array( _
+        Array(1, 2), Array(2, 2)), TrailingMinusNumbers:=True
+   
+'MsgBox Right(strFileToOpen, 8)
+  
+Workbooks(Right(strFileToOpen, 8)).Activate
+
+'#######################
+'Conta o número de linhas na order
+
+Cells(1, 1).Select
+'Set selecao = Range(ActiveCell, ActiveCell.End(xlDown))
+contagem = 500
+
+'####################################
+'Define a matriz general
+
+    For i = 1 To contagem
+
+        If Left(Cells(i, 1).Value, 9) = "[General]" Then
+
+            For h = 1 To contagem
+
+                If Left(Cells(i + h, 1).Value, 1) = "[" Then
+                    h = contagem
+                Else
+                    If e = 0 And f = 0 Then
+                        'MsgBox "e e f sao zero"
+                        e = e + 1
+                        'MsgBox e
+                        f = f + 1
+                        'MsgBox f
+                        general(e, f) = Cells(i + h, 1).Value
+                        'MsgBox general(e, f)
+                        f = f + 1
+                        'MsgBox f
+                        general(e, f) = Cells(i + h, 2).Value
+                        'MsgBox general(e, f)
+                        f = 1
+                    Else
+                        e = e + 1
+                        'MsgBox e
+                        general(e, f) = Cells(i + h, 1).Value
+                        f = f + 1
+                        general(e, f) = Cells(i + h, 2).Value
+                        f = 1
+                    End If
+                
+                End If
+            
+            Next h
+        
+        End If
+    
+    Next i
+
+For d = 1 To contagem * 2
+If general(d, 1) <> "" Then
+'MsgBox general(d, 1)
+'MsgBox general(d, 2)
+Else
+generalfor = d
+d = contagem * 2
+End If
+Next d
+
+'Reset a todas as variáveis
+i = 0
+f = 0
+h = 0
+e = 0
+d = 0
+
+'####################################
+'Define a matriz volumes
+
+Cells(1, 1).Select
+    For i = 1 To contagem
+
+        If Left(Cells(i, 1).Value, 9) = "[Volumes]" Then
+
+            For h = 1 To contagem
+
+                If Left(Cells(i + h, 1).Value, 1) = "[" Then
+                    h = contagem
+                Else
+                    If e = 0 And f = 0 Then
+                        'MsgBox "e e f sao zero"
+                        e = e + 1
+                        'MsgBox e
+                        f = f + 1
+                        'MsgBox f
+                        volumes(e, f) = Cells(i + h, 1).Value
+                        'MsgBox general(e, f)
+                        f = f + 1
+                        'MsgBox f
+                        volumes(e, f) = Cells(i + h, 2).Value
+                        'MsgBox general(e, f)
+                        f = 1
+                    Else
+                        e = e + 1
+                        'MsgBox e
+                        volumes(e, f) = Cells(i + h, 1).Value
+                        f = f + 1
+                        volumes(e, f) = Cells(i + h, 2).Value
+                        f = 1
+                    End If
+                
+                End If
+            
+            Next h
+        
+        End If
+    
+    Next i
+
+For d = 1 To contagem * 2
+If volumes(d, 1) <> "" Then
+'MsgBox volumes(d, 1)
+'MsgBox volumes(d, 2)
+Else
+volumesfor = d
+d = contagem * 2
+End If
+Next d
+
+'Reset a todas as variáveis
+i = 0
+f = 0
+h = 0
+e = 0
+d = 0
+
+'####################################
+'Define a matriz powerview
+Cells(1, 1).Select
+
+    For i = 1 To contagem
+
+        If Left(Cells(i, 1).Value, 11) = "[Powerview]" Then
+
+            For h = 1 To contagem
+
+                If Left(Cells(i + h, 1).Value, 1) = "[" Then
+                    h = contagem
+                Else
+                    If e = 0 And f = 0 Then
+                        'MsgBox "e e f sao zero"
+                        e = e + 1
+                        'MsgBox e
+                        f = f + 1
+                        'MsgBox f
+                        powerview(e, f) = Cells(i + h, 1).Value
+                        'MsgBox general(e, f)
+                        f = f + 1
+                        'MsgBox f
+                        powerview(e, f) = Cells(i + h, 2).Value
+                        'MsgBox general(e, f)
+                        f = 1
+                    Else
+                        e = e + 1
+                        'MsgBox e
+                        powerview(e, f) = Cells(i + h, 1).Value
+                        f = f + 1
+                        powerview(e, f) = Cells(i + h, 2).Value
+                        f = 1
+                    End If
+                
+                End If
+            
+            Next h
+        
+        End If
+    
+    Next i
+
+For d = 1 To contagem * 2
+If powerview(d, 1) <> "" Then
+'MsgBox powerview(d, 1)
+'MsgBox powerview(d, 2)
+Else
+powerviewfor = d
+d = contagem * 2
+End If
+Next d
+
+'Reset a todas as variáveis
+i = 0
+f = 0
+h = 0
+e = 0
+d = 0
+
+'####################################
+'Define a matriz attributes
+Cells(1, 1).Select
+
+    For i = 1 To contagem
+
+        If Left(Cells(i, 1).Value, 12) = "[Attributes]" Then
+
+            For h = 1 To contagem
+
+                If Left(Cells(i + h, 1).Value, 1) = "[" Then
+                    h = contagem
+                Else
+                    If e = 0 And f = 0 Then
+                        'MsgBox "e e f sao zero"
+                        e = e + 1
+                        'MsgBox e
+                        f = f + 1
+                        'MsgBox f
+                        attributes(e, f) = Cells(i + h, 1).Value
+                        'MsgBox general(e, f)
+                        f = f + 1
+                        'MsgBox f
+                        attributes(e, f) = Cells(i + h, 2).Value
+                        'MsgBox general(e, f)
+                        f = 1
+                    Else
+                        e = e + 1
+                        'MsgBox e
+                        attributes(e, f) = Cells(i + h, 1).Value
+                        f = f + 1
+                        attributes(e, f) = Cells(i + h, 2).Value
+                        f = 1
+                    End If
+                
+                End If
+            
+            Next h
+        
+        End If
+    
+    Next i
+
+For d = 1 To contagem * 2
+If attributes(d, 1) <> "" Then
+'MsgBox attributes(d, 1)
+'MsgBox attributes(d, 2)
+Else
+attributesfor = d
+d = contagem * 2
+End If
+Next d
+
+'Reset a todas as variáveis
+i = 0
+f = 0
+h = 0
+e = 0
+d = 0
+
+'####################################
+'Define a matriz productfilter
+Cells(1, 1).Select
+
+    For i = 1 To contagem
+
+        If Left(Cells(i, 1).Value, 15) = "[ProductFilter]" Then
+
+            For h = 1 To contagem
+
+                If Left(Cells(i + h, 1).Value, 1) = "[" Then
+                    h = contagem
+                Else
+                    If e = 0 And f = 0 Then
+                        'MsgBox "e e f sao zero"
+                        e = e + 1
+                        'MsgBox e
+                        f = f + 1
+                        'MsgBox f
+                        productfilter(e, f) = Cells(i + h, 1).Value
+                        'MsgBox general(e, f)
+                        f = f + 1
+                        'MsgBox f
+                        productfilter(e, f) = Cells(i + h, 2).Value
+                        'MsgBox general(e, f)
+                        f = 1
+                    Else
+                        e = e + 1
+                        'MsgBox e
+                        productfilter(e, f) = Cells(i + h, 1).Value
+                        f = f + 1
+                        productfilter(e, f) = Cells(i + h, 2).Value
+                        f = 1
+                    End If
+                
+                End If
+            
+            Next h
+        
+        End If
+    
+    Next i
+
+For d = 1 To contagem * 2
+If productfilter(d, 1) <> "" Then
+'MsgBox productfilter(d, 1)
+'MsgBox productfilter(d, 2)
+Else
+productfilterfor = d
+d = contagem * 2
+End If
+Next d
+
+'Reset a todas as variáveis
+i = 0
+f = 0
+h = 0
+e = 0
+d = 0
+
+'####################################
+'Define a matriz clients
+Cells(1, 1).Select
+
+    For i = 1 To contagem
+
+        If Left(Cells(i, 1).Value, 9) = "[Clients]" Then
+
+            For h = 1 To contagem
+
+                If Left(Cells(i + h, 1).Value, 1) = "[" Then
+                    h = contagem
+                Else
+                    If e = 0 And f = 0 Then
+                        'MsgBox "e e f sao zero"
+                        e = e + 1
+                        'MsgBox e
+                        f = f + 1
+                        'MsgBox f
+                        clients(e, f) = Cells(i + h, 1).Value
+                        'MsgBox general(e, f)
+                        f = f + 1
+                        'MsgBox f
+                        clients(e, f) = Cells(i + h, 2).Value
+                        'MsgBox general(e, f)
+                        f = 1
+                    Else
+                        e = e + 1
+                        'MsgBox e
+                        clients(e, f) = Cells(i + h, 1).Value
+                        f = f + 1
+                        clients(e, f) = Cells(i + h, 2).Value
+                        f = 1
+                    End If
+                
+                End If
+            
+            Next h
+        
+        End If
+    
+    Next i
+
+For d = 1 To contagem * 2
+If clients(d, 1) <> "" Then
+'MsgBox clients(d, 1)
+'MsgBox clients(d, 2)
+Else
+clientsfor = d
+d = contagem * 2
+End If
+Next d
+
+'Reset a todas as variáveis
+i = 0
+f = 0
+h = 0
+e = 0
+d = 0
+
+'#####################################
+'Fecha a order wpan e cria um workbook novo
+
+Workbooks(Right(strFileToOpen, 8)).Close
+
+Workbooks.Add
+
+'######################################
+'Popula a order nova
+
+a = 1
+
+Cells(a, 1) = "[General]"
+a = a + 1
+
+Cells(a, 1) = "Service=Foods Online"
+a = a + 1
+
+Cells(a, 1) = "RealService=FDOL"
+a = a + 1
+
+For i = 1 To generalfor
+If general(i, 1) = "Order" Then
+Cells(a, 1) = "Order=" & general(i, 2)
+i = generalfor
+a = a + 1
+End If
+Next i
+
+For i = 1 To generalfor
+If general(i, 1) = "Field" Then
+Cells(a, 1) = "Field=" & general(i, 2)
+i = generalfor
+a = a + 1
+End If
+Next i
+
+Cells(a, 1) = "BaseGlobalfield=B"
+a = a + 1
+
+Cells(a, 1) = "LastUpdate=" & Now
+a = a + 1
+
+Cells(a, 1) = "ServiceCode=55"
+a = a + 1
+
+Cells(a, 1) = "DataFormat=Powerview"
+a = a + 1
+
+Cells(a, 1) = "Formula1=True"
+a = a + 1
+
+Cells(a, 1) = "ServiceFolder=FDOL"
+a = a + 1
+
+Cells(a, 1) = "PalmQuestions=True"
+a = a + 1
+
+Cells(a, 1) = "Promo=True"
+a = a + 1
+
+Cells(a, 1) = "LastUserid=" & utilizador
+a = a + 1
+
+Cells(a, 1) = ""
+a = a + 1
+
+Cells(a, 1) = "[Volumes]"
+a = a + 1
+
+For i = 1 To volumesfor - 1
+Cells(a, 1) = volumes(i, 1) & "=" & volumes(i, 2)
+a = a + 1
+Next i
+
+Cells(a, 1) = ""
+a = a + 1
+
+Cells(a, 1) = "[Timeperiods]"
+a = a + 1
+
+Cells(a, 1) = "Startyr=1998"
+a = a + 1
+
+Cells(a, 1) = "Endyr=1998"
+a = a + 1
+
+Cells(a, 1) = "Startwk=45"
+a = a + 1
+
+Cells(a, 1) = "Numweeks=4"
+a = a + 1
+
+Cells(a, 1) = "Timedesc=199848 w/e 15/11/1998 Period 12"
+a = a + 1
+
+Cells(a, 1) = "Endwk=48"
+a = a + 2
+
+Cells(a, 1) = "[Powerview]"
+a = a + 1
+
+Cells(a, 1) = "OldFormat=False"
+a = a + 1
+
+
+For i = 1 To powerviewfor
+If powerview(i, 1) = "VolumeTitle" Then
+Cells(a, 1) = "VolumeTitle=" & powerview(i, 2)
+i = powerviewfor
+a = a + 1
+End If
+Next i
+
+For i = 1 To powerviewfor
+If powerview(i, 1) = "VolumeFactor" Then
+Cells(a, 1) = "VolumeFactor=" & powerview(i, 2)
+i = powerviewfor
+a = a + 1
+End If
+Next i
+
+Cells(a, 1) = "DBRollWeeks=260"
+a = a + 1
+
+Cells(a, 1) = "Daily=False"
+a = a + 1
+
+Cells(a, 1) = "Calendar=False"
+a = a + 1
+
+Cells(a, 1) = "FixedQuarters=True"
+a = a + 1
+
+Cells(a, 1) = "FQLongestWeeks=16"
+a = a + 1
+
+Cells(a, 1) = "FQEndWeek=52"
+a = a + 1
+
+Cells(a, 1) = "FQName=Q4"
+a = a + 1
+
+Cells(a, 1) = "RelativeQuarters=True"
+a = a + 1
+
+Cells(a, 1) = "RQLongestWeeks=13"
+a = a + 1
+
+Cells(a, 1) = "RQRelEndWeek=00"
+a = a + 1
+
+Cells(a, 1) = "RQName=Q4"
+a = a + 1
+
+Cells(a, 1) = "DBGrows=False"
+a = a + 1
+
+Cells(a, 1) = "DBRolls=True"
+a = a + 1
+
+Cells(a, 1) = "NumShopAttribs=0"
+a = a + 1
+
+Cells(a, 1) = "NumHierarchies=0"
+a = a + 1
+
+Cells(a, 1) = "HierLevs01=2"
+a = a + 1
+
+Cells(a, 1) = "HierLevs02=3"
+a = a + 1
+
+Cells(a, 1) = "HierLevs03=4"
+a = a + 1
+
+Cells(a, 1) = "HierLevs04=5"
+a = a + 1
+
+Cells(a, 1) = "HierLevs05=5"
+a = a + 1
+
+Cells(a, 1) = "HierLevs06=4"
+a = a + 1
+
+Cells(a, 1) = "HierLevs07=4"
+a = a + 1
+
+Cells(a, 1) = "NumShopHiers=1"
+a = a + 1
+
+Cells(a, 1) = "ShopHier01=STORES03"
+a = a + 1
+
+Cells(a, 1) = "ShopHierDesc01=094020 SOT1 Store Itemisation 2"
+a = a + 1
+
+Cells(a, 1) = "ProdFiles=False"
+a = a + 1
+
+Cells(a, 1) = "SameLength=True"
+a = a + 1
+
+Cells(a, 1) = "StdLength=500"
+a = a + 1
+
+Cells(a, 1) = "DataService=FDOL"
+a = a + 1
+
+Cells(a, 1) = "AKAFiles=True"
+a = a + 1
+
+For i = 1 To powerviewfor
+If powerview(i, 1) = "ProductSplitter" Then
+Cells(a, 1) = "VolumeTitle=" & powerview(i, 2)
+i = powerviewfor
+a = a + 1
+End If
+Next i
+
+For i = 1 To powerviewfor
+If powerview(i, 1) = "ProductFilterType" Then
+Cells(a, 1) = "VolumeFactor=" & powerview(i, 2)
+i = powerviewfor
+a = a + 1
+End If
+Next i
+
+Cells(a, 1) = "PalmQuestions=True"
+a = a + 1
+
+Cells(a, 1) = "Promo=True"
+a = a + 1
+
+Cells(a, 1) = ""
+a = a + 1
+
+Cells(a, 1) = "[Attributes]"
+a = a + 1
+
+For i = 1 To attributesfor - 1
+Cells(a, 1) = attributes(i, 1) & "=" & attributes(i, 2)
+a = a + 1
+Next i
+
+Cells(a, 1) = ""
+a = a + 1
+
+Cells(a, 1) = "[ProductFilter]"
+a = a + 1
+
+For i = 1 To productfilterfor - 1
+Cells(a, 1) = productfilter(i, 1) & "=" & productfilter(i, 2)
+a = a + 1
+Next i
+
+Cells(a, 1) = ""
+a = a + 1
+
+Cells(a, 1) = "[Clients]"
+a = a + 1
+
+For i = 1 To clientsfor - 1
+Cells(a, 1) = clients(i, 1) & "=" & clients(i, 2)
+a = a + 1
+Next i
+
+Cells(a, 1) = ""
+a = a + 1
+
+'##################################################
+'Salva como .ord
+
+ActiveWorkbook.SaveAs Filename:= _
+    Left(strFileToOpen, Len(strFileToOpen) - 8) & Left(Right(strFileToOpen, 8), 4) & "FDOL.ord", FileFormat _
+    :=xlText, CreateBackup:=False
+
+'#################################################
+'Instruções
+
+MsgBox "A order foi gravada na mesma directoria com o nome de " & Left(Right(strFileToOpen, 8), 4) & "FDOL.ord"
+
+ActiveWorkbook.Close SaveChanges:=False
