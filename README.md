@@ -41,6 +41,8 @@ Collection of VBA tools for Excel
   Renames pulse weights files
 20. 'renomear_weights_wpan'
   Renames wpan weights files
+21. 'nivelar_tamanho_colunas'
+  Forces each row in a column to have a certain length
   
 
   
