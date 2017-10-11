@@ -26,7 +26,7 @@ Collection of VBA tools for Excel
 12. 'esq4_demogs_std':
   Edists comtech std file to match pulse std files
 13. 'estado_da_bd'
-  Establishes readonly connection with and submits queries based on user input in form
+  Establishes readonly connection with SQL server and submits queries based on user input using form
 14. 'euromilhoes'
   Checks euromillions numbers for the previous week, checks whether there was a prize, provides its value
 15. 'inserir_linhas'
