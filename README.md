@@ -43,6 +43,7 @@ Collection of VBA tools for Excel
   Renames wpan weights files
 21. 'nivelar_tamanho_colunas'
   Forces each row in a column to have a certain length
-  
+22. 'listar_ficheiros_de_directoria'
+  Lists all files in a folder
 
   
