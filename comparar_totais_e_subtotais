@@ -1,0 +1,57 @@
+'Preenche o nível de indentação das células da coluna 1
+For i = 1 To ActiveSheet.UsedRange.Rows.Count
+    Cells(i, 3).Value = Cells(i, 1).IndentLevel
+Next
+
+'#############################
+
+'Define variáveis em uso no Do While/Loop: maxindent = nível máximo de indentação; subtot = subtotal (variável consoante
+'maxindent; tot = total (variável consoante maxindent)
+
+maxindent = Application.WorksheetFunction.Max(Range("C:C"))
+subtot = 0
+tot = 0
+
+
+'#############################
+'Percorre todos os níveis de indentação da coluna 1
+Do While maxindent > 0
+    'Percorre todas as linhas que estão a ser usadas
+    For k = ActiveSheet.UsedRange.Rows.Count To 1 Step -1
+        MsgBox "A linha é " & k
+        'Pergunta se o valor de indentação é o maior esperado (no final do FOR, o nível de indentação vai sendo reduzido), e se sim, processa o subtotal
+        If Cells(k, 3).Value = maxindent Then
+            MsgBox "O valor da célula é " & Cells(k, 3).Value & " e maxindent é " & maxindent
+            primeiro = True
+            subtot = subtot + Cells(k, 2).Value
+            MsgBox "O subtotal é " & subtot
+        'Se não for o nível de indentação maior, deparamo-nos com o primeiro nível de indentação inferior
+        Else
+            'Se o nível de indentação inferior for menor em uma unidade e se se vier de um nível de indentação superior (primeiro = true),
+            'processar total
+            If Cells(k, 3).Value = maxindent - 1 And primeiro = True Then
+                tot = tot + Cells(k, 2).Value
+                'Se total for igual a subtotais, tudo OK
+                If tot = subtot Then
+                    MsgBox tot & "IGUAIS" & subtot
+                    tot = 0
+                    subtot = 0
+                    primeiro = True
+                'Caso contrário, baza!
+                Else
+                    MsgBox tot & " e " & subtot & " são DIFERENTES"
+                    Exit For
+                End If
+                'Aqui indica-se que um nível de indentação inferior  a uma unidade do máximo já foi alcançado (primeiro = FALSE)
+                primeiro = False
+            'Se o nível de indentação inferior for menor em uma unidade e não se vier de um nível de indentação superior
+            Else
+                If primeiro = True Then
+                    MsgBox "Parece que na linha " & k & " o valor " & Cells(k, 2).Value & " não é " & subtot
+                End If
+            End If
+        End If
+    Next
+'Siga para o próximo nível de indentação: sempre a descer!
+maxindent = maxindent - 1
+Loop
