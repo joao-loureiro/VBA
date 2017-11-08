@@ -45,5 +45,9 @@ Collection of VBA tools for Excel
   Forces each row in a column to have a certain length
 22. 'listar_ficheiros_de_directoria'
   Lists all files in a folder
+23. 'encontrar_produtos_novos'
+  Replaces counts > 0 with values in a specific column
+24. 'comparar_totais_e_subtotais'
+  Checks if subtotals (x-indented) and totals (x-1-indented) amount to the same value
 
   
