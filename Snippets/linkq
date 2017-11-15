@@ -1,0 +1,201 @@
+Sub Macro1()
+
+Dim total(1 To 1000), perguntas(1 To 1000), Coiso(1 To 1000, 1 To 1000) As String
+
+'Importa o ficheiro
+ficheiro = Application.GetOpenFilename()
+    Workbooks.OpenText Filename:=ficheiro, _
+        Origin:=xlMSDOS, StartRow:=1, DataType:=xlDelimited, TextQualifier:= _
+        xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=True, Semicolon:=False, _
+        Comma:=False, Space:=False, Other:=False, FieldInfo:=Array(Array(1, 2), _
+        Array(2, 1), Array(3, 1), Array(4, 1), Array(5, 1), Array(6, 1), Array(7, 1), Array(8, 1), _
+        Array(9, 1)), TrailingMinusNumbers:=True
+
+'Define o número total de linhas como 'contagem'
+Cells(1, 1).Select
+Set selecao = Range(ActiveCell, ActiveCell.End(xlDown))
+contagem = selecao.Count
+
+'Adiciona 10 linhas ao início do ficheiro
+Rows("1:10").Select
+Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
+
+'Preenche as 8 linhas iniciais e mais 2 no final
+Cells(1, 1).Value = Left(Right(ficheiro, 12), 8)
+descricao = InputBox("Introduza uma descrição para o ficheiro", "Descrição", "LinkQ for")
+Cells(2, 1).Value = descricao
+Cells(3, 1).Value = "4000"
+Cells(4, 1).Value = "1"
+Cells(5, 1).Value = "1"
+Cells(6, 1).Value = "7F"
+Cells(7, 1).Value = (contagem + 2) / 2
+Cells(8, 1).Value = "N"
+Cells(9, 1).Value = "Total Household;Bold=1;Skip=1"
+Cells(10, 1).Value = "ALL"
+Cells(contagem + 11, 1).Value = "8="
+Cells(contagem + 12, 1).Value = "N"
+
+'Redefine o número total de linhas como 'contagem'
+Cells(1, 1).Select
+Set selecao = Range(ActiveCell, ActiveCell.End(xlDown))
+contagem = selecao.Count
+
+'Verifica se há pelo menos um = na penúltima linha, na coluna 1
+For oitoigual = 1 To contagem
+    If Right(Cells(oitoigual, 1), 1) = "=" Then
+        numerodeiguais = numerodeiguais + 1
+    End If
+Next oitoigual
+
+If numerodeiguais = 1 Then
+MsgBox ("Não existem totais a calcular no ficheiro " & ficheiro & " que pode, portanto, ser salvo e, de seguida, usado.")
+End
+End If
+
+
+'Coloca as etiquetas bold, no início de um grupo, e skip no final
+For i = 1 To contagem
+If i < contagem - 1 Then
+    If Right(Cells(i, 1), 1) = "=" Then
+        If i - 3 > 9 Then
+        Cells(i - 3, 1) = Cells(i - 3, 1) & ";Skip=2"
+        End If
+        Cells(i - 1, 1) = Cells(i - 1, 1) & ";Bold=1"
+    End If
+End If
+Next i
+
+'Verifica se há duas células seguidas com = no final, na coluna 1
+For checkigual = 1 To contagem
+    If Right(Cells(checkigual, 1), 1) = "=" Then
+        If Right(Cells(checkigual + 2, 1), 1) = "=" Then
+            MsgBox "O ficheiro '" & ficheiro & "' tem dois totais seguidos nas linhas " & checkigual & " e " & checkigual + 2 & " e necessita de ser partido, antes de executar esta macro."
+            End
+        End If
+    End If
+Next checkigual
+
+Principio:
+
+j = 1
+
+'Define a array total em função das linhas que acabam em "="
+For i = 1 To contagem
+    If Right(Cells(i, 1), 1) = "=" Then
+        'MsgBox "= encontrado na linha " & i
+        total(j) = i
+        j = j + 1
+    End If
+Next i
+
+'Mostra o total até haver total e fixa l como o número de linhas que acabam em "="
+For k = 1 To 1000
+    If total(k) <> "" Then
+        'MsgBox total(k)
+        l = k
+    Else
+        k = 1000
+    End If
+Next k
+
+'MsgBox l & " valores na array"
+
+'Define a array perguntas como o valor que vem antes do =
+For m = 1 To l
+perguntas(m) = Left(Cells(total(m), 1), InStr(Cells(total(m), 1), "=") - 1)
+Next m
+
+'######################################
+'Define a array para total(1) que agrega a pergunta e as respostas
+
+o = o + 2
+p = o - 2
+r = r + 1
+s = s + 1
+
+For n = total(1) To total(2) - 4
+    If Right(Cells(total(1) + p, 1), 1) = "=" Then
+        t = 1
+    Else
+        t = 2
+    End If
+ 
+    If Left(Cells(total(1) + p, 1), InStr(Cells(total(1) + p, 1), "=") - 1) = Left(Cells(total(1) + o, 1), InStr(Cells(total(1) + o, 1), "=") - 1) Then
+        'MsgBox total(1) + p - 10 & " é igual a " & total(1) + o - 10
+        If t = 1 Then
+            Coiso(r, s) = Left(Cells(total(1) + o, 1), InStr(Cells(total(1) + o, 1), "=") + 2)
+            t = t + 1
+            'MsgBox coiso(r, s) & " pergunta igual e t é igual a 1; r é " & r & " e s é " & s
+            Else
+            s = s + 1
+            Coiso(r, s) = Left(Cells(total(1) + o, 1), InStr(Cells(total(1) + o, 1), "=") + 2)
+            'MsgBox coiso(r, s) & " pergunta igual e t é diferente de 1; r é " & r & " e s é " & s
+        End If
+    Else
+        t = 1
+        'MsgBox total(1) + p - 10 & " é diferente " & total(1) + o - 10
+        r = r + 1
+        s = 1
+        Coiso(r, s) = Left(Cells(total(1) + o, 1), InStr(Cells(total(1) + o, 1), "=") + 2)
+        'MsgBox coiso(r, s) & " pergunta diferente e t volta a ser 1; r é " & r & " e s é " & s
+    End If
+    
+    o = o + 2
+    p = o - 2
+    n = n + 1
+    'MsgBox coiso(r, s) & " final do for; r é " & r & " e s é " & s
+Next n
+
+'###################################
+'Concatena os totais, separando cada pergunta com ; e cada resposta com /
+
+For u = 1 To 1000
+v = 1
+ If Coiso(u, v) <> "" Then
+    For v = 1 To 1000
+        If Coiso(u, v) <> "" Then
+            'MsgBox coiso(u, v)
+            If v = 1 Then
+                ultimo = ultimo & Coiso(u, v)
+            End If
+        Else
+            ultimo = ultimo & "/" & Right(Coiso(u, v - 1), 2) & ";"
+            v = 1000
+        End If
+    Next v
+  Else
+  End If
+Next u
+
+Cells(total(1), 1) = Left(ultimo, Len(ultimo) - 1)
+
+l = l - 1
+
+If l <> 1 Then
+    i = 0
+    j = 0
+    k = 0
+    l = 0
+    m = 0
+    n = 0
+    o = 0
+    p = 0
+    k = 0
+    r = 0
+    s = 0
+    t = 0
+    u = 0
+    v = 0
+    Erase total
+    Erase perguntas
+    Erase Coiso
+    ultimo = ""
+    GoTo Principio
+Else
+Cells(total(1), 1) = Left(Cells(total(1), 1), Len(Cells(total(1), 1)) - 2) & Right(Cells(contagem - 2, 1), 2)
+Cells(contagem - 1, 1).Value = "8"
+End If
+
+End Sub
+
+

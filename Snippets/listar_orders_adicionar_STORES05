@@ -1,0 +1,225 @@
+Sub Macro2()
+
+'#####ATENCAO##############
+'Testar e atentar em casos:
+'1. Orders com 10 hierarquias
+'2. Orders com Stores05 que não correspondem a 098760
+'3. Orders em que existem células com = e nada do outro lado: a solução pode passar por ver se o primeiro e o último caracter são [ ]
+'4. Convém que haja mais do que uma order na directoria, senão não funciona -- > Resolvido
+'5. Convém que pelo menos uma das orders tenha já Stores05, senão não funciona --> Resolvido
+'6. É necessário dar conta de casos de orders sem hierarquias
+
+Dim xRow As Long
+Dim q(1 To 100) As Integer
+Dim xDirect$, xFname$, InitialFoldr$
+InitialFoldr$ = "C:\"
+
+Cells(1, 1).Select
+
+'#Selecciona a directoria e lista todos os ficheiros que nela constam
+
+With Application.FileDialog(msoFileDialogFolderPicker)
+.InitialFileName = Application.DefaultFilePath & "\"
+.Title = "Please select a folder to list Files from"
+.InitialFileName = InitialFoldr$
+.Show
+
+If .SelectedItems.Count <> 0 Then
+xDirect$ = .SelectedItems(1) & "\"
+xFname$ = Dir(xDirect$, 7)
+
+Do While xFname$ <> ""
+ActiveCell.Offset(xRow) = xDirect$ & xFname$
+xRow = xRow + 1
+xFname$ = Dir
+Loop
+End If
+End With
+
+'#Define o número de orders listadas
+'Cells(1, 1).Select
+'Set selecao = Range(ActiveCell, ActiveCell.End(xlDown))
+
+'Em vez de fixar a contagem em função do número de linhas, a contagem passa a ser fixada em função de um número fixo, tendo-se adicionado, de seguida, um if statement, no caso de uma célula estar nula
+contagem = 10000
+
+'#Abre cada order da lista e procura, dentro da order, se esta contém a hierarquia de lojas STORES05
+For i = 1 To contagem
+If Cells(i, 1) <> "" Then
+    Application.WindowState = xlMinimized
+    Workbooks.OpenText Filename:= _
+        Cells(i, 1).Value, Origin:= _
+        xlMSDOS, StartRow:=1, DataType:=xlDelimited, TextQualifier:=xlDoubleQuote _
+        , ConsecutiveDelimiter:=False, Tab:=False, Semicolon:=False, Comma:= _
+        False, Space:=False, Other:=True, OtherChar:="=", FieldInfo:=Array( _
+        Array(1, 2), Array(2, 2)), TrailingMinusNumbers:=True
+
+    For j = 1 To 1000
+        If Cells(j, 2).Value = "STORES05" Or Left(Cells(j + 1, 2).Value, 6) = "098760" Then
+            j = 1000
+            stores5 = True
+        Else
+            stores5 = False
+        End If
+    Next j
+ActiveWorkbook.Close SaveChanges:=False
+Workbooks("Listar orders sem Stores05 e adicionar.xlsm").Activate
+If stores5 = True Then
+    Cells(i, 2) = "COM STORES05"
+    Else
+    Cells(i, 2) = "SEM STORES05"
+End If
+End If
+Next i
+
+'MsgBox "Listadas as orders que incluem e que não incluem STORES05"
+
+'#Redefine a contagem
+Cells(1, 1).Select
+Set selecao = Range(ActiveCell, ActiveCell.End(xlDown))
+contagem = selecao.Count
+
+'#Limpa as orders que têm a hierarquia de lojas STORES05
+For k = 1 To contagem
+    If Cells(k, 2).Value = "COM STORES05" Then
+        Cells(k, 1) = ""
+        Cells(k, 2) = ""
+    End If
+Next k
+
+Cells(9999, 1) = "blabla"
+Cells(9999, 2) = "blabla"
+
+Columns("A:B").Select
+Selection.SpecialCells(xlCellTypeBlanks).Select
+Selection.Delete Shift:=xlUp
+
+For blabla = 1 To 10000
+    If Cells(blabla, 2).Value = "blabla" Then
+        Cells(blabla, 1) = ""
+        Cells(blabla, 2) = ""
+    End If
+Next blabla
+
+'MsgBox "Listadas apenas as orders que não incluem STORES05"
+
+
+'#Redefine a contagem
+Cells(1, 1).Select
+Set selecao = Range(ActiveCell, ActiveCell.End(xlDown))
+contagem = selecao.Count
+
+'#Abre todas as orders que não têm STORES05
+For l = 1 To contagem
+    Application.WindowState = xlMinimized
+    Workbooks.OpenText Filename:= _
+    Cells(l, 1).Value, Origin:= _
+    xlMSDOS, StartRow:=1, DataType:=xlDelimited, TextQualifier:=xlDoubleQuote _
+    , ConsecutiveDelimiter:=False, Tab:=False, Semicolon:=False, Comma:= _
+    False, Space:=False, Other:=True, OtherChar:="=", FieldInfo:=Array( _
+    Array(1, 2), Array(2, 2)), TrailingMinusNumbers:=True
+    '#Adiciona mais um número ao 'NumShopHiers'
+    For m = 1 To 1000
+        If Cells(m, 1).Value = "NumShopHiers" Then
+        
+            'Verifica se há 0 hierarquias e sai da rotina, se for esse o caso
+            If Cells(m, 2).Value = "0" Then
+            'MsgBox "calma ai"
+            GoTo Calmaai
+            End If
+            
+            
+            V = Cells(m, 2).Value
+            If V < 10 Then
+                Cells(m, 2) = Cells(m, 2) + 1
+                '#Verifica quando há 'Shophier' a terminar uma row, ou seja, a fixar a linha após a qual vai ser adicionada a store5
+                For n = 1 To 1000
+                    If Left(Cells(n, 1).Value, 8) = "ShopHier" And Left(Cells(n + 1, 1).Value, 8) <> "ShopHier" Then
+                        Cells(n + 1, 1).Select
+                        'Adiciona as duas linhas correspondentes à store5
+                        Selection.EntireRow.Insert , CopyOrigin:=xlFormatFromLeftOrAbove
+                        'MsgBox v
+                        If Len(V) > 1 Then
+                            Cells(n + 1, 1) = "ShopHier" & V + 1
+                        Else
+                            Cells(n + 1, 1) = "ShopHier0" & V + 1
+                        End If
+                        Cells(n + 1, 2) = "STORES05"
+                        Cells(n + 2, 1).Select
+                        Selection.EntireRow.Insert , CopyOrigin:=xlFormatFromLeftOrAbove
+                        If Len(V) > 1 Then
+                        Cells(n + 2, 1) = "ShopHierDesc" & V + 1
+                        Else
+                        Cells(n + 2, 1) = "ShopHierDesc0" & V + 1
+                        End If
+                        Cells(n + 2, 2) = "098760 New Stores 3 RST"
+                        'Fixa h de maneira a prosseguir com o for sem atender às duas linhas da store5 (senão fazia um loop contínuo)
+                        n = n + 3
+                        'Volta a adicionar os símbolos '=' quando são precisos e une tudo numa única coluna
+                        For o = 1 To 1000
+                            If Cells(o, 1) <> "" Then
+                                If Cells(o, 2) <> "" Then
+                                    Cells(o, 1) = Cells(o, 1).Value & "=" & Cells(o, 2).Value
+                                    Cells(o, 2).Value = ""
+                                    Else
+                                End If
+                            Else
+                            End If
+                        Next o
+                    n = 1000
+                    End If
+                Next n
+            End If
+        'Define g como 1000, de maneira a que mesmo que a listagem das hierarquias de lojas esteja dispersa, não adicione duas vezes a store 5
+        m = 1000
+        End If
+    Next m
+    
+'Verifica quais os casos em que surge '=' não seguido de alguma coisa, e define a array correspondente
+r = 1
+
+For p = 1 To 1000
+    If Cells(p, 1) <> "" And Left(Cells(p, 1), 1) <> "[" And InStr(Cells(p, 1), "=") = 0 Then
+            q(r) = p
+            'MsgBox q(r)
+            r = r + 1
+        End If
+    Next p
+'Volta a colocar os "=" que não tinham conteúdo nenhum
+For s = 1 To 1000
+    If q(s) > 0 Then
+        Cells(q(s), 1) = Cells(q(s), 1) & "="
+    Else
+        s = 1000
+    End If
+Next s
+
+'Limpa a segunda coluna para não aparecerem tabs
+Columns("B:B").Select
+Selection.Delete Shift:=xlUp
+
+Calmaai:
+
+'Fecha e salva a order
+ActiveWorkbook.Close SaveChanges:=True
+Workbooks("Listar orders sem Stores05 e adicionar.xlsm").Activate
+
+'No caso de haver uma única base na directoria, termina a rotina
+If Cells(l + 1, 1) = "" Then
+MsgBox "Foram alteradas " & l & "orders, na directoria " & xDirect$
+End
+End If
+
+'Limpa todas as variáveis
+m = ""
+V = ""
+n = ""
+o = ""
+p = ""
+Erase q
+r = ""
+s = ""
+
+Next l
+
+End Sub

@@ -1,0 +1,29 @@
+'Campos a alinhar nas colunas 1 e 2
+Cells(1, 1).Select
+Set selecao1 = Range(ActiveCell, ActiveCell.End(xlDown))
+contagem1 = selecao1.Count
+Cells(1, 2).Select
+Set selecao2 = Range(ActiveCell, ActiveCell.End(xlDown))
+contagem2 = selecao2.Count
+
+'MsgBox contagem1
+'MsgBox contagem2
+
+'Colunas necessitam estar ordenadas
+For i = 1 To contagem1
+    If Cells(i, 1).Value = Cells(i, 2).Value Then
+        'MsgBox ("iguais")
+        Else
+        For j = 1 To contagem2
+            If Cells(j, 2).Value = Cells(i, 1).Value Then
+                Cells(i, 1).Select
+                Set resto = Range(Cells(i, 1), ActiveCell.End(xlDown))
+                resto.Select
+                Selection.Cut
+                Cells(j, 1).Select
+                ActiveSheet.Paste
+                i = i + (j - i)
+            End If
+        Next j
+    End If
+Next i

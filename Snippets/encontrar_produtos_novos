@@ -1,0 +1,59 @@
+'
+' Macro1 Macro
+'
+Dim i, j, a As Integer
+Dim head(), cat()
+
+ActiveSheet.Name = "Base"
+Sheets.Add.Name = "Extraccao"
+
+a = 2
+
+For i = 2 To Sheets("Base").UsedRange.Columns.Count
+
+    For j = 3 To Sheets("Base").UsedRange.Rows.Count
+          
+        If IsNumeric(Sheets("Base").Cells(j, i).Value) Then
+        
+            If Sheets("Base").Cells(j, i).Value > 0 Then
+        
+            'MsgBox "Estamos na coluna " & Cells(2, i).Value & " e a linha é " & (Cells(j, 1).Value)
+            
+            'matriz(mathead, matcat) = Cells(2, i).Value & " - " & (Cells(j, 1).Value)
+            
+            
+            Sheets("Extraccao").Cells(1, i) = Sheets("Base").Cells(2, i).Value
+            
+            Sheets("Extraccao").Cells(a, i) = Sheets("Base").Cells(j, 1).Value
+            
+            a = a + 1
+            
+            End If
+        
+        Else
+        
+            MsgBox "Há um valor não numérico na coluna " & i & " e na linha " & j
+            
+            Exit Sub
+                        
+        End If
+        
+        'matcat = matcat + 1
+
+    Next
+
+    'mathead = mathead + 1
+    'matcat = 1
+    
+    a = 2
+    
+Next
+
+'For k = 1 To 1000
+'    For l = 1 To 1000
+'
+'        If matriz(k, l) <> "" Then
+'            MsgBox matriz(k, l)
+'        End If
+'    Next
+'Next

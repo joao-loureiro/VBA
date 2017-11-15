@@ -1,0 +1,5 @@
+For i = 1 To ActiveSheet.UsedRange.Rows.Count
+If Left(Cells(i, 1).Value, 1) <> "v" Then
+Cells(i, 1) = ""
+End If
+Next
