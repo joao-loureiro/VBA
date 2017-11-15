@@ -23,4 +23,4 @@ Snippets
 24. 'nivelar_tamanho_colunas' Forces each row in a column to have a certain length
 25. 'listar_ficheiros_de_directoria' Lists all files in a folder
 26. 'encontrar_produtos_novos' Replaces counts > 0 with values in a specific column
-27. 'comparar_totais_e_subtotais' Checks if subtotals (x-indented) and totals (x-1-indented) amount to the same value~l
+27. 'comparar_totais_e_subtotais' Checks if subtotals (x-indented) and totals (x-1-indented) amount to the same value
