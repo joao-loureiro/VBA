@@ -1,5 +1,4 @@
-# VBA-tools
-Collection of VBA tools for Excel
+# VBA snippets for Microsoft Excel
 
 1. 'alinhador':
   Compares two previously sorted columns and lines up the rows
