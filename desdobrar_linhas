@@ -1,6 +1,0 @@
-k = 2
-For i = 2 To 40
-    For k = k To k + 3
-            Sheet2.Cells(k, 1).Value = Sheet1.Cells(i, 1).Value
-    Next
-Next
