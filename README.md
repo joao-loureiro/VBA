@@ -50,5 +50,6 @@
   Checks if subtotals (x-indented) and totals (x-1-indented) amount to the same value
 25. 'contar_indentacoes'
   Counts space indentations
-
+26. 'poker'
+  Allows co-workers to play poker discretely
   
