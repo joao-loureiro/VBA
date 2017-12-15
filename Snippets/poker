@@ -1,0 +1,1141 @@
+Dim jogador, baralho(1 To 52), linha, linha2 As String, fso As Object, existe_ficheiro, cartas_dadas, flop_dado, turn_dado, river_dado, aposta1_feita, aposta2_feita, aposta3_feita, aposta4_feita As Boolean, njogs, njogsdefin, ncartdadas As Integer
+Private Sub Auto_Open()
+
+Call limpeza
+
+Call pergunta_nome
+
+If jogador = "" Then
+    MsgBox "O nome do jogador necessita de ter, pelo menos, um caracter!"
+    Call pergunta_nome
+Else
+    If Len(jogador) > 8 Then
+        MsgBox "O número máximo de caracteres é 8!"
+        Call pergunta_nome
+    End If
+End If
+
+Set fso = CreateObject("Scripting.FileSystemObject")
+
+If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\1.jog") <> "") = True Then
+    If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\2.jog") <> "") = True Then
+            If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\3.jog") <> "") = True Then
+                    If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\4.jog") <> "") = True Then
+                            If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\5.jog") <> "") = True Then
+                                    If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\6.jog") <> "") = True Then
+                                        If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\7.jog") <> "") = True Then
+                                            If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\8.jog") <> "") = True Then
+                                                MsgBox "Número máximo de jogadores atingido!"
+                                            Else
+                                                Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\8.jog", True, True)
+                                                Fileout.Write jogador
+                                                Fileout.Close
+                                                njogs = 8
+                                            End If
+                                        Else
+                                            Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\7.jog", True, True)
+                                            Fileout.Write jogador
+                                            Fileout.Close
+                                            njogs = 7
+                                        End If
+                                    Else
+                                        Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\6.jog", True, True)
+                                        Fileout.Write jogador
+                                        Fileout.Close
+                                        njogs = 6
+                                    End If
+                            Else
+                                Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\5.jog", True, True)
+                                Fileout.Write jogador
+                                Fileout.Close
+                                njogs = 5
+                            End If
+                    Else
+                        Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\4.jog", True, True)
+                        Fileout.Write jogador
+                        Fileout.Close
+                        njogs = 4
+                    End If
+            Else
+                Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\3.jog", True, True)
+                Fileout.Write jogador
+                Fileout.Close
+                njogs = 3
+            End If
+    Else
+        Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\2.jog", True, True)
+        Fileout.Write jogador
+        Fileout.Close
+        njogs = 2
+    End If
+Else
+    Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\1.jog", True, True)
+    Fileout.Write jogador
+    Fileout.Close
+    njogs = 1
+End If
+        
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\njogs.num", True, True)
+Fileout.Write njogs
+Fileout.Close
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\bid.eur", True, True)
+Fileout.Write "5"
+Fileout.Close
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\bolo.eur", True, True)
+Fileout.Write "0"
+Fileout.Close
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\desistentes.jog", True, True)
+Fileout.Write "0"
+Fileout.Close
+
+If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\jogoemcurso.alt") <> "") = False Then
+    Call espero_jogadores
+    Call crio_saldo
+    Call crio_baralho
+    Call crio_mesa
+End If
+
+End Sub
+Sub reset()
+
+Call Auto_Open
+
+End Sub
+
+Sub limpeza()
+
+cartas_dadas = False
+flop_dado = False
+turn_dado = False
+river_dado = False
+aposta1_feita = False
+aposta2_feita = False
+aposta3_feita = False
+aposta4_feita = False
+
+Range("A1:L23") = ""
+Range("N3") = ""
+Range("B29") = ""
+Range("E29") = ""
+Range("I29") = ""
+Range("K29") = ""
+Range("M3") = "Sld"
+Range("N3") = ""
+Range("O3") = "€"
+Range("M5") = "Ap"
+Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\bid.eur") For Input As #1
+Line Input #1, linha
+linha2 = linha
+Range("N5") = Right(linha2, Len(linha2) - 2)
+Close #1
+Range("O5") = "€"
+Range("M7") = "Ms"
+Range("N7") = "0"
+Range("O7") = "€"
+
+jogador = ""
+linha = ""
+linha2 = ""
+njogs = 0
+njogsdefin = 0
+ncartdadas = 0
+
+For i = 1 To 8
+    If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\" & i & ".jog") <> "") = True Then
+        Kill ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\" & i & ".jog")
+    End If
+Next
+
+For i = 1 To 8
+    If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\" & i & "-1.mao") <> "") = True Then
+        Kill ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\" & i & "-1.mao")
+    End If
+Next
+
+For i = 1 To 8
+    If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\" & i & "-2.mao") <> "") = True Then
+        Kill ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\" & i & "-2.mao")
+    End If
+Next
+
+For i = 1 To 3
+    If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\flop-" & i & ".mao") <> "") = True Then
+        Kill ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\flop-" & i & ".mao")
+    End If
+Next
+
+If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\jogoemcurso.alt") <> "") = True Then
+    Kill ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\jogoemcurso.alt")
+End If
+
+If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\njogs.num") <> "") = True Then
+    Kill ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\njogs.num")
+End If
+
+If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\river.mao") <> "") = True Then
+    Kill ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\river.mao")
+End If
+
+If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\turn.mao") <> "") = True Then
+    Kill ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\turn.mao")
+End If
+
+End Sub
+
+Sub pergunta_nome()
+
+jogador = InputBox("Como é que te chamas?", "Nome do jogador")
+
+'Pode ser necessário verificar se há dois nomes iguais
+
+End Sub
+
+Sub espero_jogadores()
+
+Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\njogs.num") For Input As #1
+Line Input #1, linha
+linha2 = linha
+njogsdefin = Right(linha2, Len(linha2) - 2)
+
+Close #1
+
+resposta = MsgBox("Ainda só estão " & njogsdefin & " jogadores em jogo. Continuar?", vbYesNo + vbQuestion, "Alerta")
+
+If resposta = vbYes Then
+    ultimo = MsgBox("És o último jogador que vai entrar no jogo?", vbYesNo + vbQuestion, "Alerta")
+    If ultimo = vbYes Then
+        Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\jogoemcurso.alt", True, True)
+    Else
+        Call espero_jogadores
+    End If
+Else
+    Call espero_jogadores
+End If
+
+End Sub
+Sub crio_saldo()
+
+'Pode ser utilizada esta sub para ler o saldo no final de um jogo
+If Cells(3, 1).Value = jogador Then
+Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\1.sal") For Input As #1
+Line Input #1, linha
+linha2 = linha
+Cells(3, 14) = Right(linha2, Len(linha2) - 2)
+Close #1
+Else
+    If Cells(5, 1).Value = jogador Then
+    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\2.sal") For Input As #1
+    Line Input #1, linha
+    linha2 = linha
+    Cells(3, 14) = Right(linha2, Len(linha2) - 2)
+    Close #1
+    Else
+        If Cells(7, 1).Value = jogador Then
+        Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\3.sal") For Input As #1
+        Line Input #1, linha
+        linha2 = linha
+        Cells(3, 14) = Right(linha2, Len(linha2) - 2)
+        Close #1
+        Else
+            If Cells(9, 1).Value = jogador Then
+            Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\4.sal") For Input As #1
+            Line Input #1, linha
+            linha2 = linha
+            Cells(3, 14) = Right(linha2, Len(linha2) - 2)
+            Close #1
+            Else
+                If Cells(11, 1).Value = jogador Then
+                Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\5.sal") For Input As #1
+                Line Input #1, linha
+                linha2 = linha
+                Cells(3, 14) = Right(linha2, Len(linha2) - 2)
+                Close #1
+                Else
+                    If Cells(13, 1).Value = jogador Then
+                    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\6.sal") For Input As #1
+                    Line Input #1, linha
+                    linha2 = linha
+                    Cells(3, 14) = Right(linha2, Len(linha2) - 2)
+                    Close #1
+                    Else
+                        If Cells(15, 1).Value = jogador Then
+                        Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\7.sal") For Input As #1
+                        Line Input #1, linha
+                        linha2 = linha
+                        Cells(3, 14) = Right(linha2, Len(linha2) - 2)
+                        Close #1
+                        Else
+                            If Cells(17, 1).Value = jogador Then
+                            Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\8.sal") For Input As #1
+                            Line Input #1, linha
+                            linha2 = linha
+                            Cells(3, 14) = Right(linha2, Len(linha2) - 2)
+                            Close #1
+                            Else
+                            Cells(3, 14) = 100
+                                'Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\saldo_inicial.eur") For Input As #1
+                                'Line Input #1, linha
+                                'linha2 = linha
+                                'Range("N3") = Right(linha2, Len(linha2) - 2)
+                                'Close #1
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+        End If
+    End If
+End If
+
+
+End Sub
+Sub crio_baralho()
+
+If njogs = 1 Then
+
+baralho(1) = "A-E"
+baralho(2) = "2-E"
+baralho(3) = "3-E"
+baralho(4) = "4-E"
+baralho(5) = "5-E"
+baralho(6) = "6-E"
+baralho(7) = "7-E"
+baralho(8) = "8-E"
+baralho(9) = "9-E"
+baralho(10) = "10-E"
+baralho(11) = "J-E"
+baralho(12) = "Q-E"
+baralho(13) = "K-E"
+baralho(14) = "A-C"
+baralho(15) = "2-C"
+baralho(16) = "3-C"
+baralho(17) = "4-C"
+baralho(18) = "5-C"
+baralho(19) = "6-C"
+baralho(20) = "7-C"
+baralho(21) = "8-C"
+baralho(22) = "9-C"
+baralho(23) = "10-C"
+baralho(24) = "J-C"
+baralho(25) = "Q-C"
+baralho(26) = "K-C"
+baralho(27) = "A-P"
+baralho(28) = "2-P"
+baralho(29) = "3-P"
+baralho(30) = "4-P"
+baralho(31) = "5-P"
+baralho(32) = "6-P"
+baralho(33) = "7-P"
+baralho(34) = "8-P"
+baralho(35) = "9-P"
+baralho(36) = "10-P"
+baralho(37) = "J-P"
+baralho(38) = "Q-P"
+baralho(39) = "K-P"
+baralho(40) = "A-O"
+baralho(41) = "2-O"
+baralho(42) = "3-O"
+baralho(43) = "4-O"
+baralho(44) = "5-O"
+baralho(45) = "6-O"
+baralho(46) = "7-O"
+baralho(47) = "8-O"
+baralho(48) = "9-O"
+baralho(49) = "10-O"
+baralho(50) = "J-O"
+baralho(51) = "Q-O"
+baralho(52) = "K-O"
+
+contagem = 52
+
+'Distribui a 1ª carta do 1º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\1-1.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 2ª carta do 1º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\1-2.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 1ª carta do 2º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\2-1.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 2ª carta do 2º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\2-2.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 1ª carta do 3º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\3-1.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 2ª carta do 3º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\3-2.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 1ª carta do 4º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\4-1.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 2ª carta do 4º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\4-2.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 1ª carta do 5º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\5-1.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 2ª carta do 5º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\5-2.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 1ª carta do 6º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\6-1.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 2ª carta do 6º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\6-2.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 1ª carta do 7º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\7-1.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 2ª carta do 7º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\7-2.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 1ª carta do 8º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\8-1.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 2ª carta do 8º jogador
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\8-2.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 1ª carta do flop
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\flop-1.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 2ª carta do flop
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\flop-2.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui a 3ª carta do flop
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\flop-3.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui o turn
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\turn.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+'Distribui o river
+
+Randomize
+
+random = Int((contagem - 1 + 1) * Rnd + 1)
+
+random2 = random
+
+'Msgbox baralho(random2)
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\river.mao", True, True)
+Fileout.Write baralho(random2)
+Fileout.Close
+
+For a = random2 To contagem
+    If a = contagem Then
+    Else
+        baralho(a) = baralho(a + 1)
+    End If
+Next a
+
+contagem = contagem - 1
+
+End If
+
+End Sub
+
+Sub crio_mesa()
+
+If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\1.jog") <> "") = True Then
+    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\1.jog") For Input As #1
+    Line Input #1, linha
+    linha2 = linha
+    Cells(3, 1) = Right(linha2, Len(linha2) - 2)
+    Close #1
+    If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\2.jog") <> "") = True Then
+        Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\2.jog") For Input As #1
+        Line Input #1, linha
+        linha2 = linha
+        Cells(5, 1) = Right(linha2, Len(linha2) - 2)
+        Close #1
+        If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\3.jog") <> "") = True Then
+            Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\3.jog") For Input As #1
+            Line Input #1, linha
+            linha2 = linha
+            Cells(7, 1) = Right(linha2, Len(linha2) - 2)
+            Close #1
+            If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\4.jog") <> "") = True Then
+                Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\4.jog") For Input As #1
+                Line Input #1, linha
+                linha2 = linha
+                Cells(9, 1) = Right(linha2, Len(linha2) - 2)
+                Close #1
+                If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\5.jog") <> "") = True Then
+                    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\5.jog") For Input As #1
+                    Line Input #1, linha
+                    linha2 = linha
+                    Cells(11, 1) = Right(linha2, Len(linha2) - 2)
+                    Close #1
+                    If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\6.jog") <> "") = True Then
+                        Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\6.jog") For Input As #1
+                        Line Input #1, linha
+                        linha2 = linha
+                        Cells(13, 1) = Right(linha2, Len(linha2) - 2)
+                        Close #1
+                        If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\7.jog") <> "") = True Then
+                            Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\7.jog") For Input As #1
+                            Line Input #1, linha
+                            linha2 = linha
+                            Cells(15, 1) = Right(linha2, Len(linha2) - 2)
+                            Close #1
+                            If (Dir("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\8.jog") <> "") = True Then
+                                Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\8.jog") For Input As #1
+                                Line Input #1, linha
+                                linha2 = linha
+                                Cells(17, 1) = Right(linha2, Len(linha2) - 2)
+                                Close #1
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+        End If
+    End If
+End If
+
+End Sub
+Sub dou_cartas()
+
+If Cells(3, 1).Value = jogador Then
+Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\1-1.mao") For Input As #1
+Line Input #1, linha
+linha2 = linha
+Cells(3, 2) = Right(linha2, Len(linha2) - 2)
+Close #1
+Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\1-2.mao") For Input As #1
+Line Input #1, linha
+linha2 = linha
+Cells(3, 3) = Right(linha2, Len(linha2) - 2)
+Close #1
+Else
+    If Cells(5, 1).Value = jogador Then
+    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\2-1.mao") For Input As #1
+    Line Input #1, linha
+    linha2 = linha
+    Cells(5, 2) = Right(linha2, Len(linha2) - 2)
+    Close #1
+    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\2-2.mao") For Input As #1
+    Line Input #1, linha
+    linha2 = linha
+    Cells(5, 3) = Right(linha2, Len(linha2) - 2)
+    Close #1
+    Else
+        If Cells(7, 1).Value = jogador Then
+        Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\3-1.mao") For Input As #1
+        Line Input #1, linha
+        linha2 = linha
+        Cells(7, 2) = Right(linha2, Len(linha2) - 2)
+        Close #1
+        Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\3-2.mao") For Input As #1
+        Line Input #1, linha
+        linha2 = linha
+        Cells(7, 3) = Right(linha2, Len(linha2) - 2)
+        Close #1
+        Else
+            If Cells(9, 1).Value = jogador Then
+            Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\4-1.mao") For Input As #1
+            Line Input #1, linha
+            linha2 = linha
+            Cells(9, 2) = Right(linha2, Len(linha2) - 2)
+            Close #1
+            Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\4-2.mao") For Input As #1
+            Line Input #1, linha
+            linha2 = linha
+            Cells(9, 3) = Right(linha2, Len(linha2) - 2)
+            Close #1
+            Else
+                If Cells(11, 1).Value = jogador Then
+                Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\5-1.mao") For Input As #1
+                Line Input #1, linha
+                linha2 = linha
+                Cells(11, 2) = Right(linha2, Len(linha2) - 2)
+                Close #1
+                Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\5-2.mao") For Input As #1
+                Line Input #1, linha
+                linha2 = linha
+                Cells(11, 3) = Right(linha2, Len(linha2) - 2)
+                Close #1
+                Else
+                    If Cells(13, 1).Value = jogador Then
+                    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\6-1.mao") For Input As #1
+                    Line Input #1, linha
+                    linha2 = linha
+                    Cells(13, 2) = Right(linha2, Len(linha2) - 2)
+                    Close #1
+                    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\6-2.mao") For Input As #1
+                    Line Input #1, linha
+                    linha2 = linha
+                    Cells(13, 3) = Right(linha2, Len(linha2) - 2)
+                    Close #1
+                    Else
+                        If Cells(15, 1).Value = jogador Then
+                        Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\7-1.mao") For Input As #1
+                        Line Input #1, linha
+                        linha2 = linha
+                        Cells(15, 2) = Right(linha2, Len(linha2) - 2)
+                        Close #1
+                        Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\7-2.mao") For Input As #1
+                        Line Input #1, linha
+                        linha2 = linha
+                        Cells(15, 3) = Right(linha2, Len(linha2) - 2)
+                        Close #1
+                        Else
+                            If Cells(17, 1).Value = jogador Then
+                            Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\8-1.mao") For Input As #1
+                            Line Input #1, linha
+                            linha2 = linha
+                            Cells(17, 2) = Right(linha2, Len(linha2) - 2)
+                            Close #1
+                            Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\8-2.mao") For Input As #1
+                            Line Input #1, linha
+                            linha2 = linha
+                            Cells(17, 3) = Right(linha2, Len(linha2) - 2)
+                            Close #1
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+        End If
+    End If
+End If
+
+cartas_dadas = True
+
+End Sub
+Sub apostar1()
+
+If aposta1_feita <> True And cartas_dadas = True And flop_dado <> True Then
+
+    Cells(3, 14).Value = Cells(3, 14).Value - Cells(5, 14).Value
+
+    aposta1_feita = True
+
+    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\bolo.eur") For Input As #1
+    Line Input #1, linha
+    linha2 = linha
+    bid = CInt(Right(linha2, Len(linha2) - 2)) + 5
+    Close #1
+        
+    Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\bolo.eur", True, True)
+    Fileout.Write bid
+    Fileout.Close
+        
+End If
+
+End Sub
+Sub desistir()
+
+Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\desistentes.jog") For Input As #1
+Line Input #1, linha
+linha2 = linha
+desistentes = CInt(Right(linha2, Len(linha2) - 2)) + 1
+Close #1
+
+Set Fileout = fso.CreateTextFile("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\desistentes.jog", True, True)
+Fileout.Write desistentes
+Fileout.Close
+
+End Sub
+Sub flop()
+
+If cartas_dadas = True And aposta1_feita = True Then
+
+    'Subtrair njogs pelos jogadores que entretanto desistiram
+    Range("N7") = Cells(7, 14).Value + bid * njogs
+
+    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\flop-1.mao") For Input As #1
+    Line Input #1, linha
+    linha2 = linha
+    Cells(3, 5) = Right(linha2, Len(linha2) - 2)
+    Close #1
+
+    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\flop-2.mao") For Input As #1
+    Line Input #1, linha
+    linha2 = linha
+    Cells(3, 6) = Right(linha2, Len(linha2) - 2)
+    Close #1
+
+    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\flop-3.mao") For Input As #1
+    Line Input #1, linha
+    linha2 = linha
+    Cells(3, 7) = Right(linha2, Len(linha2) - 2)
+    Close #1
+    
+flop_dado = True
+
+End If
+
+End Sub
+Sub apostar2()
+
+If aposta2_feita <> True And flop_dado = True And turn_dado <> True Then
+
+    Cells(3, 14).Value = Cells(3, 14).Value - Cells(5, 14).Value
+
+    aposta2_feita = True
+
+End If
+
+End Sub
+Sub turn()
+
+If flop_dado = True And aposta2_feita Then
+
+    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\turn.mao") For Input As #1
+    Line Input #1, linha
+    linha2 = linha
+    Cells(3, 9) = Right(linha2, Len(linha2) - 2)
+    Close #1
+   
+turn_dado = True
+
+End If
+
+End Sub
+Sub apostar3()
+
+If aposta3_feita <> True And turn_dado = True And river_dado <> True Then
+
+    Cells(3, 14).Value = Cells(3, 14).Value - Cells(5, 14).Value
+
+    aposta3_feita = True
+    
+    
+
+End If
+
+End Sub
+Sub river()
+
+If turn_dado = True And aposta3_feita = True Then
+
+    Open ("\\ktlibfps101\ROC\ROC Production\UK Data Production\12. Joao L\pok\river.mao") For Input As #1
+    Line Input #1, linha
+    linha2 = linha
+    Cells(3, 11) = Right(linha2, Len(linha2) - 2)
+    Close #1
+    
+river_dado = True
+
+End If
+
+End Sub
+Sub apostar4()
+
+MsgBox aposta4_feita
+MsgBox river_dado
+
+If aposta4_feita <> True And river_dado = True Then
+MsgBox "oikddj"
+    Cells(3, 14).Value = Cells(3, 14).Value - Cells(5, 14).Value
+
+    aposta4_feita = True
+
+End If
+
+End Sub
