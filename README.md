@@ -52,4 +52,6 @@
   Counts space indentations
 26. 'poker'
   Allows co-workers to play poker discretely
+27. 'demograficos_manuais'
+  Imports lists of paths for a number of bat files and executes them one by one
   
