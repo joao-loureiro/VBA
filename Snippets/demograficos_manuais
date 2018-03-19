@@ -1,0 +1,237 @@
+MODULE 1
+
+Public drive_utilizada, periodo As String
+=========================================
+Sub Auto_Open()
+
+'Application.Visible = False
+
+UserForm1.Show
+
+End Sub
+=========================================
+
+USERFORM
+
+'Código associado ao dropdown menu que permite escolher o servico
+Private Sub ComboBox1_Change()
+
+' Selecciona um serviço e abre o ficheiro com a localização dos .bat associados aos demográficos
+If ComboBox1.Value = "Pulse" Then
+
+    ListBox1.Clear
+    
+    Frame1.Visible = False
+    CommandButton3.Visible = False
+    CommandButton4.Visible = False
+    CommandButton5.Visible = False
+
+    If (Dir(drive_utilizada & "\demogs\pulse\pulse_demogs.txt") <> "") = True Then
+        Open (drive_utilizada & "\demogs\pulse\pulse_demogs.txt") For Input As #1
+        
+        Do Until EOF(1)
+        Line Input #1, linha
+        ListBox1.AddItem (linha)
+        Loop
+        
+        Close #1
+        
+        MsgBox ("Seleccione os demográficos a executar")
+        
+    End If
+
+End If
+
+If ComboBox1.Value = "Worldpanel UK" Then
+
+    ListBox1.Clear
+    
+    Frame1.Visible = True
+    CommandButton3.Visible = True
+    CommandButton4.Visible = True
+    CommandButton5.Visible = True
+    
+    If (Dir(drive_utilizada & "\demogs\wpanhisc\wpanhisc_demogs.txt") <> "") = True Then
+        Open (drive_utilizada & "\demogs\wpanhisc\wpanhisc_demogs.txt") For Input As #1
+        
+        Do Until EOF(1)
+        Line Input #1, linha
+        ListBox1.AddItem (linha)
+        Loop
+        
+        Close #1
+        
+        MsgBox ("Carregue nos botões do menu lateral (se necessário) e depois seleccione os demográficos a executar")
+        
+    End If
+
+End If
+
+If ComboBox1.Value = "Foods Online" Then
+
+    ListBox1.Clear
+    
+    Frame1.Visible = False
+    CommandButton3.Visible = False
+    CommandButton4.Visible = False
+    CommandButton5.Visible = False
+
+    If (Dir(drive_utilizada & "\demogs\foodsonline\foodsonline_demogs.txt") <> "") = True Then
+        Open (drive_utilizada & "\demogs\foodsonline\foodsonline_demogs.txt") For Input As #1
+        
+        Do Until EOF(1)
+        Line Input #1, linha
+        ListBox1.AddItem (linha)
+        Loop
+        
+        Close #1
+        
+        MsgBox ("Seleccione os demográficos a executar")
+        
+    End If
+
+End If
+
+End Sub
+'Código associado ao botão 'Executar'
+Private Sub CommandButton1_Click()
+
+Dim wsh As Object
+Set wsh = VBA.CreateObject("WScript.Shell")
+Dim waitOnReturn As Boolean: waitOnReturn = True
+Dim windowStyle As Integer: windowStyle = 1
+Dim errorCode As Long
+
+'Percorre a lista dos bat
+For i = 0 To ListBox1.ListCount - 1
+    'Se o bat estiver seleccionado
+    If ListBox1.Selected(i) Then
+        
+        'Define o caminho do ficheiro bat como caminhoComBat
+        caminhoComBat = "" & ListBox1.List(i) & ""
+        'MsgBox ("1 - O caminho com bat é " & caminhoComBat)
+        
+        'Define caminhoTemp como um split de caminhoComBat
+        caminhoTemp = Split(caminhoComBat, "\")
+        
+        'Percorre as sucessivas barras/splits
+        For j = 0 To UBound(caminhoTemp) - 1
+
+            'Define o caminho como sendo o caminho até à última barra/split
+            caminho = caminho & caminhoTemp(j) & "\"
+            'MsgBox ("2 - O caminho é " & caminho)
+
+        Next
+        
+        'Agrega a drive_utilizada ao caminho
+        caminho = drive_utilizada & caminho
+        'MsgBox (caminho)
+        
+        'Define a directoria de trabalho do WScript.Shell
+        wsh.CurrentDirectory = caminho
+        
+        'mensagem = wsh.CurrentDirectory
+        'MsgBox ("3 -  A mensage é " & mensagem)
+        'wsh.CurrentDirectory = caminho
+        
+        'Corre o bat
+        errorCode = wsh.Run("setuplocal.bat", windowStyle, waitOnReturn)
+        
+        'Volta a colocar o caminho a zero
+        caminho = ""
+        
+        If errorCode = 0 Then
+            'MsgBox "Não houve erro na execução do demográfico"
+        Else
+            MsgBox "Verificou-se o erro " & errorCode & " na execução do demográfico."
+        End If
+        
+    End If
+
+Next
+
+End Sub
+'Codigo associado ao botão de sair
+Private Sub CommandButton2_Click()
+
+Application.DisplayAlerts = False
+Application.Quit
+
+End Sub
+'Codigo associado ao botão de copia da Asda
+Private Sub CommandButton3_Click()
+
+mostrar_ficheiros = Application.FileDialog(msoFileDialogFilePicker).Show
+
+ficheiro = Application.FileDialog(msoFileDialogFilePicker).SelectedItems(1)
+
+FileCopy ficheiro, drive_utilizada & "\demogs\wpanhisc\ASDA104\data_" & periodo & ".dat"
+FileCopy ficheiro, drive_utilizada & "\demogs\wpanhisc\ASDA156\data_" & periodo & ".dat"
+FileCopy ficheiro, drive_utilizada & "\demogs\wpanhisc\ASDA260\data_" & periodo & ".dat"
+FileCopy ficheiro, drive_utilizada & "\demogs\wpanhisc\ASDA2104\data_" & periodo & ".dat"
+FileCopy ficheiro, drive_utilizada & "\demogs\wpanhisc\ASDA2156\data_" & periodo & ".dat"
+FileCopy ficheiro, drive_utilizada & "\demogs\wpanhisc\ASDA2260\data_" & periodo & ".dat"
+
+End Sub
+
+Private Sub CommandButton4_Click()
+
+mostrar_ficheiros = Application.FileDialog(msoFileDialogFilePicker).Show
+
+ficheiro = Application.FileDialog(msoFileDialogFilePicker).SelectedItems(1)
+
+FileCopy ficheiro, drive_utilizada & "\demogs\wpanhisc\MORR104\data_" & periodo & ".dat"
+FileCopy ficheiro, drive_utilizada & "\demogs\wpanhisc\MORR156\data_" & periodo & ".dat"
+FileCopy ficheiro, drive_utilizada & "\demogs\wpanhisc\MORR260\data_" & periodo & ".dat"
+
+End Sub
+
+Private Sub CommandButton5_Click()
+
+mostrar_ficheiros = Application.FileDialog(msoFileDialogFilePicker).Show
+
+ficheiro = Application.FileDialog(msoFileDialogFilePicker).SelectedItems(1)
+
+FileCopy ficheiro, drive_utilizada & "demogs\wpanhisc\PEPSI260\PB_pepsico." & Right(periodo, 3)
+
+End Sub
+
+Private Sub CommandButton6_Click()
+
+periodo = InputBox("Qual é o período ao qual se referem os demográficos?", "Período a definir", "YYYYPP")
+
+If drive_utilizada <> "" And periodo <> "" Then
+
+    Label1.Visible = True
+    ComboBox1.Visible = True
+    CommandButton1.Visible = True
+
+End If
+
+End Sub
+
+Private Sub CommandButton7_Click()
+
+drive_utilizada = InputBox("Qual é a drive que vai ser utilizada?", "Drive a utilizar", "E:")
+If drive_utilizada = "" Then
+    drive_utilizada = "E:"
+Else
+End If
+
+End Sub
+
+Private Sub UserForm_Activate()
+
+Frame1.Visible = False
+CommandButton1.Visible = False
+CommandButton3.Visible = False
+CommandButton4.Visible = False
+CommandButton5.Visible = False
+Label1.Visible = False
+ComboBox1.Visible = False
+
+UserForm1.ComboBox1.AddItem ("Worldpanel UK")
+UserForm1.ComboBox1.AddItem ("Pulse")
+UserForm1.ComboBox1.AddItem ("Foods Online")
+
+End Sub
