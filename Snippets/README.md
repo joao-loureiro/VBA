@@ -49,5 +49,7 @@ Collection of VBA tools for Excel
   Replaces counts > 0 with values in a specific column
 24. 'comparar_totais_e_subtotais'
   Checks if subtotals (x-indented) and totals (x-1-indented) amount to the same value
+25. 'ver_diferencas_em_tabelas'
+  Compares two tables with different itemisations and checks if measures amount to the same value
 
   
