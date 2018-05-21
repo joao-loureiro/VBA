@@ -1,0 +1,164 @@
+Sub Macro1()
+
+'Fixa a primeira coluna livre nas sheets 1 e 2
+coluna_sheet1 = Sheet1.UsedRange.Columns.Count + 1
+'msgbox (coluna_sheet1)
+coluna_sheet2 = Sheet2.UsedRange.Columns.Count + 1
+'msgbox (coluna_sheet1)
+
+'###############################################################
+'Altera o nome do produto concatenando tudo o que está para trás
+
+nivel_0 = ""
+nivel_1 = ""
+nivel_2 = ""
+nivel_3 = ""
+k = 0
+
+Sheet1.Activate
+
+For m = 1 To Sheet1.UsedRange.Rows.Count
+    For j = 1 To 100 Step 2
+        If Mid(Sheet1.Cells(m, 1).Value, j, 1) = " " Then
+            k = k + 1
+        Else
+            'msgbox ("Não há mais espaços em linha " & m)
+            j = 100
+            Select Case k
+                Case Is = 0
+                    nivel_0 = Sheet1.Cells(m, 1).Value
+                    nivel_1 = ""
+                    nivel_2 = ""
+                    nivel_3 = ""
+                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 0 é " & nivel_0)
+                Case Is = 1
+                    nivel_1 = Sheet1.Cells(m, 1).Value
+                    nivel_2 = ""
+                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 1 é " & nivel_1)
+                Case Is = 2
+                    nivel_2 = Sheet1.Cells(m, 1).Value
+                    nivel_3 = ""
+                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 2 é " & nivel_2)
+                Case Is = 3
+                    nivel_3 = Sheet1.Cells(m, 1).Value
+                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 3 é " & nivel_3)
+            End Select
+            'msgbox (amalgama)
+            Cells(m, 1).Value = amalgama
+            k = 0
+        End If
+    Next
+Next
+
+Sheet2.Activate
+
+'Finalizada a Sheet1: reinicializar as variáveis
+nivel_0 = ""
+nivel_1 = ""
+nivel_2 = ""
+nivel_3 = ""
+k = 0
+
+For m = 1 To Sheet2.UsedRange.Rows.Count
+    For j = 1 To 100 Step 2
+        If Mid(Sheet2.Cells(m, 1).Value, j, 1) = " " Then
+            k = k + 1
+        Else
+            'msgbox ("Não há mais espaços em linha " & m)
+            j = 100
+            Select Case k
+                Case Is = 0
+                    nivel_0 = Sheet2.Cells(m, 1).Value
+                    nivel_1 = ""
+                    nivel_2 = ""
+                    nivel_3 = ""
+                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 0 é " & nivel_0)
+                Case Is = 1
+                    nivel_1 = Sheet2.Cells(m, 1).Value
+                    nivel_2 = ""
+                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 1 é " & nivel_1)
+                Case Is = 2
+                    nivel_2 = Sheet2.Cells(m, 1).Value
+                    nivel_3 = ""
+                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 2 é " & nivel_2)
+                Case Is = 3
+                    nivel_3 = Sheet2.Cells(m, 1).Value
+                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 3 é " & nivel_3)
+            End Select
+            'msgbox (amalgama)
+            Cells(m, 1).Value = amalgama
+            k = 0
+        End If
+    Next
+Next
+
+'###############################################
+'Preenche o numero da linha para as sheets 1 e 2
+
+Sheet1.Activate
+
+
+For i = 1 To Sheet1.UsedRange.Rows.Count
+    Sheet1.Cells(i, coluna_sheet1) = i
+Next
+
+Sheet2.Activate
+
+For i = 1 To Sheet2.UsedRange.Rows.Count
+    Sheet2.Cells(i, coluna_sheet1) = i
+Next
+
+'#########################################
+'Preenche a sheet3 com a lista de vlookups
+
+Sheet3.Activate
+
+For i = 1 To Sheet2.UsedRange.Rows.Count
+    Sheet3.Cells(i, 1).Formula = "=VLOOKUP('Periodo Recente'!A" & i & ",'Periodo Antigo'!A:ZZ," & coluna_sheet1 & ",FALSE)"
+Next
+
+'###################################
+'Preenche a sheet3 com as diferenças
+
+For j = 1 To Sheet2.UsedRange.Rows.Count
+    
+    row_vlookup_value = Sheet3.Cells(j, 1).Value
+
+    If Not Application.IsNA(Cells(j, 1)) Then
+        'msgbox (row_vlookup_value)
+    End If
+
+    For i = 2 To Sheet2.UsedRange.Columns.Count
+
+        If Not Application.IsNA(Cells(j, 1)) Then
+            Sheet3.Cells(j, i).Formula = "='Periodo Recente'!" & Sheet2.Cells(j, i).Address(RowAbsolute:=False, ColumnAbsolute:=False) & "/'Periodo Antigo'!" & Sheet1.Cells(row_vlookup_value, i).Address(RowAbsolute:=False, ColumnAbsolute:=False) & "-1"
+        End If
+    
+    Next
+Next
+
+'#######################################################
+'Preenche a sheet3 com a itemisação da base mais recente
+
+For i = 1 To Sheet2.UsedRange.Rows.Count
+    Sheet3.Cells(i, 1) = Sheet2.Cells(i, 1)
+Next
+
+
+'####################################
+'Apaga os numeros de linhas
+
+'Sheet1.Columns(coluna_sheet1).Delete
+'Sheet2.Columns(coluna_sheet2).Delete
+
+
+'
+End Sub
