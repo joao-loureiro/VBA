@@ -85,7 +85,7 @@ End Select
         'Print #1, "1"
         'End If
         'If i = 3 Then
-        'Print #1, "DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=powerview;PWD=powerview;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview"
+        'Print #1, "DRIVER=SQL Server;SERVER=##########\#######;UID=#########;PWD=#########;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview"
         'End If
         'If i = 4 Then
         'Print #1, "SELECT [PvaProdId],[ProductionTypeId],[OrderId],[OrderNumber],[Period],[DataPeriod],[NumPeriods],[Cleared],[Priority],[BuildMode],[PanelTypeId],[BuildTypeId],[IsecJobPriority],[IsecJobNumber],[IsecJobStatus],[IsecJobTimeSubmit],[IsecJobTimeStart],[IsecJobSeconds],[DownloadStatus],[DownloadSeconds],[DownloadTimeStart],[ServerId],[BuildStatus],[BuildTimeStart],[BuildSeconds],[FactorySeconds],[ZipSeconds],[StatusDescription],[DatabaseStatus],[DatabaseDate],[PrepDate],[ClearedDate],[AutoBuild],[PvCopy],[ServerName],[GlbDate],[QueueFlag] FROM [PowerView].[powerview].[pva_production]" & " WHERE [PowerView].[powerview].[pva_production].OrderNumber = '" & orderbox & "' AND [PowerView].[powerview].[pva_production].DataPeriod = '" & periodcombobox & "' AND " _
@@ -101,7 +101,7 @@ End Select
         'Print #1, "1"
         'End If
         'If i = 3 Then
-        'Print #1, "DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=powerview;PWD=powerview;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview"
+        'Print #1, "DRIVER=SQL Server;SERVER=##########\#######;UID=#########;PWD=#########;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview"
         'End If
         'If i = 4 Then
         'Print #1, "SELECT [PvaProdId],[ProductionTypeId],[OrderId],[OrderNumber],[Period],[DataPeriod],[NumPeriods],[Cleared],[Priority],[BuildMode],[PanelTypeId],[BuildTypeId],[IsecJobPriority],[IsecJobNumber],[IsecJobStatus],[IsecJobTimeSubmit],[IsecJobTimeStart],[IsecJobSeconds],[DownloadStatus],[DownloadSeconds],[DownloadTimeStart],[ServerId],[BuildStatus],[BuildTimeStart],[BuildSeconds],[FactorySeconds],[ZipSeconds],[StatusDescription],[DatabaseStatus],[DatabaseDate],[PrepDate],[ClearedDate],[AutoBuild],[PvCopy],[ServerName],[GlbDate],[QueueFlag] FROM [PowerView].[powerview].[pva_production]" & " WHERE [PowerView].[powerview].[pva_production].OrderNumber = '" & orderbox & "' AND [PowerView].[powerview].[pva_production].DataPeriod = '" & periodcombobox & "' AND " _
@@ -117,7 +117,7 @@ End Select
         'Print #1, "1"
         'End If
         'If i = 3 Then
-        'Print #1, "DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=powerview;PWD=powerview;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview"
+        'Print #1, "DRIVER=SQL Server;SERVER=##########\#######;UID=#########;PWD=#########;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview"
         'End If
         'If i = 4 Then
         'Print #1, "SELECT [PvaProdId],[ProductionTypeId],[OrderId],[OrderNumber],[Period],[DataPeriod],[NumPeriods],[Cleared],[Priority],[BuildMode],[PanelTypeId],[BuildTypeId],[IsecJobPriority],[IsecJobNumber],[IsecJobStatus],[IsecJobTimeSubmit],[IsecJobTimeStart],[IsecJobSeconds],[DownloadStatus],[DownloadSeconds],[DownloadTimeStart],[ServerId],[BuildStatus],[BuildTimeStart],[BuildSeconds],[FactorySeconds],[ZipSeconds],[StatusDescription],[DatabaseStatus],[DatabaseDate],[PrepDate],[ClearedDate],[AutoBuild],[PvCopy],[ServerName],[GlbDate],[QueueFlag] FROM [PowerView].[powerview].[pva_production]" & " WHERE [PowerView].[powerview].[pva_production].OrderNumber = '" & orderbox & "' AND [PowerView].[powerview].[pva_production].DataPeriod = '" & periodcombobox & "' AND [PowerView].[powerview].[pva_production].PanelTypeID = '" & servicecomboboxa & "'"
@@ -143,7 +143,7 @@ Workbooks.Add
 Select Case servicecombobox.Value
 Case "Worldpanel UK"
     With ActiveSheet.ListObjects.Add(SourceType:=0, Source:= _
-        "ODBC;DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=readonly;PWD=readonly;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview" _
+        "ODBC;DRIVER=SQL Server;SERVER=##########\#######;UID=#########;PWD=#########;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview" _
         , Destination:=Range("$A$1")).QueryTable
         .CommandText = Array( _
         "SELECT [PvaProdId],[ProductionTypeId],[OrderId],[OrderNumber],[Period],[DataPeriod],[NumPeriods],[Cleared],[Priorit" _
@@ -179,7 +179,7 @@ Case "Worldpanel UK"
     End With
 Case "Foods Online"
     With ActiveSheet.ListObjects.Add(SourceType:=0, Source:= _
-        "ODBC;DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=readonly;PWD=readonly;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview" _
+        "ODBC;DRIVER=SQL Server;SERVER=##########\#######;UID=#########;PWD=#########;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview" _
         , Destination:=Range("$A$1")).QueryTable
         .CommandText = Array( _
         "SELECT [PvaProdId],[ProductionTypeId],[OrderId],[OrderNumber],[Period],[DataPeriod],[NumPeriods],[Cleared],[Priorit" _
@@ -215,7 +215,7 @@ Case "Foods Online"
     End With
 Case Else
     With ActiveSheet.ListObjects.Add(SourceType:=0, Source:= _
-        "ODBC;DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=readonly;PWD=readonly;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview" _
+        "ODBC;DRIVER=SQL Server;SERVER=##########\#######;UID=#########;PWD=#########;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview" _
         , Destination:=Range("$A$1")).QueryTable
         .CommandText = Array( _
         "SELECT [PvaProdId],[ProductionTypeId],[OrderId],[OrderNumber],[Period],[DataPeriod],[NumPeriods],[Cleared],[Priorit" _
@@ -334,7 +334,7 @@ If Cells(2, 1) <> "" Then
         
         
     With ActiveSheet.ListObjects.Add(SourceType:=0, Source:= _
-        "ODBC;DRIVER=SQL Server;SERVER=KTLWGSQL005\GRPSQ01;UID=readonly;PWD=readonly;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview" _
+        "ODBC;DRIVER=SQL Server;SERVER=##########\#######;UID=#########;PWD=#########;APP=Microsoft Office 2010;WSID=KWLWGD701091;DATABASE=powerview" _
         , Destination:=Range("$A$40")).QueryTable
         .CommandText = Array( _
         "SELECT [NetworkFolder] FROM [PowerView].[powerview].[pva_or" _
