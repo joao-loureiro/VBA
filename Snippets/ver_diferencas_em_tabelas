@@ -1,4 +1,14 @@
-Sub Macro1()
+Sub Ver_Diferencas()
+
+'Retira as selecções
+Sheet1.Activate
+Range("A1").Select
+   
+Sheet2.Activate
+Range("A1").Select
+   
+Sheet3.Activate
+Range("A1").Select
 
 'Fixa a primeira coluna livre nas sheets 1 e 2
 coluna_sheet1 = Sheet1.UsedRange.Columns.Count + 1
@@ -13,6 +23,9 @@ nivel_0 = ""
 nivel_1 = ""
 nivel_2 = ""
 nivel_3 = ""
+nivel_4 = ""
+nivel_5 = ""
+nivel_6 = ""
 k = 0
 
 Sheet1.Activate
@@ -30,21 +43,49 @@ For m = 1 To Sheet1.UsedRange.Rows.Count
                     nivel_1 = ""
                     nivel_2 = ""
                     nivel_3 = ""
-                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    nivel_4 = ""
+                    nivel_5 = ""
+                    nivel_6 = ""
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
                     'msgbox ("Pedaco de amalgama de nivel 0 é " & nivel_0)
                 Case Is = 1
                     nivel_1 = Sheet1.Cells(m, 1).Value
                     nivel_2 = ""
-                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    nivel_3 = ""
+                    nivel_4 = ""
+                    nivel_5 = ""
+                    nivel_6 = ""
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
                     'msgbox ("Pedaco de amalgama de nivel 1 é " & nivel_1)
                 Case Is = 2
                     nivel_2 = Sheet1.Cells(m, 1).Value
                     nivel_3 = ""
-                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    nivel_4 = ""
+                    nivel_5 = ""
+                    nivel_6 = ""
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
                     'msgbox ("Pedaco de amalgama de nivel 2 é " & nivel_2)
                 Case Is = 3
                     nivel_3 = Sheet1.Cells(m, 1).Value
-                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    nivel_4 = ""
+                    nivel_5 = ""
+                    nivel_6 = ""
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 3 é " & nivel_3)
+                Case Is = 4
+                    nivel_4 = Sheet1.Cells(m, 1).Value
+                    nivel_5 = ""
+                    nivel_6 = ""
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 3 é " & nivel_3)
+                Case Is = 5
+                    nivel_5 = Sheet1.Cells(m, 1).Value
+                    nivel_6 = ""
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 3 é " & nivel_3)
+                Case Is = 6
+                    nivel_6 = Sheet1.Cells(m, 1).Value
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
                     'msgbox ("Pedaco de amalgama de nivel 3 é " & nivel_3)
             End Select
             'msgbox (amalgama)
@@ -61,6 +102,9 @@ nivel_0 = ""
 nivel_1 = ""
 nivel_2 = ""
 nivel_3 = ""
+nivel_4 = ""
+nivel_5 = ""
+nivel_6 = ""
 k = 0
 
 For m = 1 To Sheet2.UsedRange.Rows.Count
@@ -76,21 +120,49 @@ For m = 1 To Sheet2.UsedRange.Rows.Count
                     nivel_1 = ""
                     nivel_2 = ""
                     nivel_3 = ""
-                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    nivel_4 = ""
+                    nivel_5 = ""
+                    nivel_6 = ""
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
                     'msgbox ("Pedaco de amalgama de nivel 0 é " & nivel_0)
                 Case Is = 1
                     nivel_1 = Sheet2.Cells(m, 1).Value
                     nivel_2 = ""
-                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    nivel_3 = ""
+                    nivel_4 = ""
+                    nivel_5 = ""
+                    nivel_6 = ""
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
                     'msgbox ("Pedaco de amalgama de nivel 1 é " & nivel_1)
                 Case Is = 2
                     nivel_2 = Sheet2.Cells(m, 1).Value
                     nivel_3 = ""
-                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    nivel_4 = ""
+                    nivel_5 = ""
+                    nivel_6 = ""
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
                     'msgbox ("Pedaco de amalgama de nivel 2 é " & nivel_2)
                 Case Is = 3
                     nivel_3 = Sheet2.Cells(m, 1).Value
-                    amalgama = nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    nivel_4 = ""
+                    nivel_5 = ""
+                    nivel_6 = ""
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 3 é " & nivel_3)
+                Case Is = 4
+                    nivel_4 = Sheet2.Cells(m, 1).Value
+                    nivel_5 = ""
+                    nivel_6 = ""
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 3 é " & nivel_3)
+                Case Is = 5
+                    nivel_5 = Sheet2.Cells(m, 1).Value
+                    nivel_6 = ""
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
+                    'msgbox ("Pedaco de amalgama de nivel 3 é " & nivel_3)
+                Case Is = 6
+                    nivel_6 = Sheet2.Cells(m, 1).Value
+                    amalgama = nivel_6 & nivel_5 & nivel_4 & nivel_3 & nivel_2 & nivel_1 & nivel_0
                     'msgbox ("Pedaco de amalgama de nivel 3 é " & nivel_3)
             End Select
             'msgbox (amalgama)
@@ -152,13 +224,22 @@ For i = 1 To Sheet2.UsedRange.Rows.Count
     Sheet3.Cells(i, 1) = Sheet2.Cells(i, 1)
 Next
 
+End Sub
+Sub Auto_Open()
 
-'####################################
-'Apaga os numeros de linhas
-
-'Sheet1.Columns(coluna_sheet1).Delete
-'Sheet2.Columns(coluna_sheet2).Delete
-
-
-'
+    Sheet1.Activate
+    Cells.Select
+    Selection.Delete Shift:=xlUp
+    Range("A1").Select
+    
+    Sheet2.Activate
+    Cells.Select
+    Selection.Delete Shift:=xlUp
+    Range("A1").Select
+    
+    Sheet3.Activate
+    Cells.Select
+    Selection.Delete Shift:=xlUp
+    Range("A1").Select
+    
 End Sub
