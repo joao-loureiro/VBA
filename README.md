@@ -1,6 +1,5 @@
 # VBA
 
-1. 'Snippets'
-  
+1. 'Snippets':
   Snippets for Microsoft Excel
   
